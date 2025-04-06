@@ -2,6 +2,7 @@ package com.necro.fireworkcapsules.common.recipes;
 
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
 import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
+import com.necro.fireworkcapsules.common.item.StickerItem;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
 import com.necro.fireworkcapsules.common.stickers.Stickers;
 import net.minecraft.core.HolderLookup;
@@ -18,7 +19,6 @@ import java.util.List;
 
 public class CapsuleRecipe extends CustomRecipe {
     private static final Ingredient STAR_INGREDIENT = Ingredient.of(Items.FIREWORK_STAR);
-    private static final Ingredient STICKER_INGREDIENT = Ingredient.of(FireworkCapsuleItems.STICKERS);
     private static final Ingredient POKEBALL_INGREDIENT = Ingredient.of(FireworkCapsuleItems.BALL_CAPSULE.value());
 
     public CapsuleRecipe(CraftingBookCategory craftingBookCategory) {
@@ -31,9 +31,10 @@ public class CapsuleRecipe extends CustomRecipe {
         int capsules = 0;
 
         for (int i = 0; i < recipeInput.size(); i++) {
-            if (recipeInput.getItem(i).isEmpty()) continue;
-            else if (STAR_INGREDIENT.test(recipeInput.getItem(i)) || STICKER_INGREDIENT.test(recipeInput.getItem(i))) stickers++;
-            else if (POKEBALL_INGREDIENT.test(recipeInput.getItem(i))) capsules++;
+            ItemStack itemStack = recipeInput.getItem(i);
+            if (itemStack.isEmpty()) continue;
+            else if (STAR_INGREDIENT.test(itemStack) || itemStack.getItem() instanceof StickerItem) stickers++;
+            else if (POKEBALL_INGREDIENT.test(itemStack)) capsules++;
             else return false;
         }
 
@@ -51,7 +52,7 @@ public class CapsuleRecipe extends CustomRecipe {
                 FireworkExplosion fireworkExplosion = itemStack.get(DataComponents.FIREWORK_EXPLOSION);
                 if (fireworkExplosion != null) list.add(StickerExplosion.fromFireworks(fireworkExplosion));
             }
-            else if (STICKER_INGREDIENT.test(itemStack)) {
+            else if (itemStack.getItem() instanceof StickerItem) {
                 StickerExplosion stickerExplosion = itemStack.get(FireworkCapsuleComponents.STICKER_EXPLOSION.value());
                 if (stickerExplosion != null) list.add(stickerExplosion);
             }

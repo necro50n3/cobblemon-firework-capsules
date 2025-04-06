@@ -1,7 +1,7 @@
 package com.necro.fireworkcapsules.common.recipes;
 
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
-import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
+import com.necro.fireworkcapsules.common.item.StickerItem;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -14,7 +14,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class StickerRecipe extends CustomRecipe {
-    private static final Ingredient STICKER_INGREDIENT = Ingredient.of(FireworkCapsuleItems.STICKERS);
     private static final Ingredient TRAIL_INGREDIENT = Ingredient.of(Items.DIAMOND);
     private static final Ingredient TWINKLE_INGREDIENT = Ingredient.of(Items.GLOWSTONE_DUST);
 
@@ -32,7 +31,7 @@ public class StickerRecipe extends CustomRecipe {
         for (int i = 0; i < recipeInput.size(); i++) {
             ItemStack itemStack = recipeInput.getItem(i);
             if (itemStack.isEmpty()) continue;
-            else if (STICKER_INGREDIENT.test(itemStack)) {
+            else if (itemStack.getItem() instanceof StickerItem) {
                 if (sticker) return false;
                 else sticker = true;
             }
@@ -61,7 +60,7 @@ public class StickerRecipe extends CustomRecipe {
         for (int i = 0; i < recipeInput.size(); i++) {
             ItemStack itemStack = recipeInput.getItem(i);
             if (itemStack.isEmpty()) continue;
-            else if (STICKER_INGREDIENT.test(itemStack)) {
+            else if (itemStack.getItem() instanceof StickerItem) {
                 sticker = itemStack;
             }
             else if (TRAIL_INGREDIENT.test(itemStack)) hasTrail = true;

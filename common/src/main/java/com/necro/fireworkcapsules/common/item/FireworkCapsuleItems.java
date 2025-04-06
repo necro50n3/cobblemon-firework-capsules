@@ -1,10 +1,6 @@
 package com.necro.fireworkcapsules.common.item;
 
-import com.necro.fireworkcapsules.common.FireworkCapsules;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 
@@ -31,9 +27,4 @@ public class FireworkCapsuleItems {
     public static Holder<Item> WATER_STICKER;
 
     public static Holder<CreativeModeTab> CAPSULE_TAB;
-    public static final TagKey<Item> STICKERS = createTag("stickers");
-
-    public static TagKey<Item> createTag(String name) {
-        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, name));
-    }
 }
