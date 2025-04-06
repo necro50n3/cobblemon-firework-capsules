@@ -1,7 +1,7 @@
 # Cobblemon Firework Capsules  
 #### Send out your Pokemon with a bang using fireworks and custom stickers!  
 
-![showcase](https://i.ibb.co/zWKRKrZT/firework-capsules.webp)  
+![showcase](https://i.imgur.com/7gdr7Ih.gif)  
 
 # Basics
 <details open>
@@ -40,7 +40,7 @@ Stickers can be combined with a Ball Capsule along with other stickers and Firew
 </details>
 
 # Addon Support
-<details open>
+<details>
 
 <summary></summary>
 
