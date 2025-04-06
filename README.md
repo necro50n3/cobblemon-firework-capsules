@@ -1,7 +1,7 @@
 # Cobblemon Firework Capsules  
-#### Send out your Pokemon with a bang using fireworks and custom stickers!  
+**Send out your Pokemon with a bang using fireworks and custom stickers!**  
 
-![showcase](https://i.imgur.com/7gdr7Ih.gif)  
+![showcase](https://i.imgur.com/JAhsMox.gif)  
 
 # Basics
 <details open>
