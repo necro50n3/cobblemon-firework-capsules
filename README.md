@@ -1,7 +1,7 @@
 # Cobblemon Firework Capsules  
 **Send out your Pokemon with a bang using fireworks and custom stickers!**  
 
-![showcase](https://i.imgur.com/JAhsMox.gif)  
+![showcase](https://i.imgur.com/JAhsMox.gif)
 
 # Basics
 <details open>
@@ -15,6 +15,7 @@ Ball Capsules can be combined with any number of Firework Stars.
 ![adding fireworks](https://i.imgur.com/XgNb8ML.png)  
 ## Capsule Station Recipe  
 You can equip your ball capsule to your Pokemon using a Capsule Station.  
+Special thanks to **dogtorbloo** for the custom block model!  
 ![capsule station recipe](https://i.imgur.com/rX7FBL3.png)  
 
 </details>
