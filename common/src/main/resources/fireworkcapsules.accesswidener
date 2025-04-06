@@ -1,0 +1,10 @@
+accessWidener	v2	named
+accessible   field   net/minecraft/client/particle/FireworkParticles$Starter         CREEPER_PARTICLE_COORDS  [[D
+accessible   field   net/minecraft/client/particle/FireworkParticles$Starter         STAR_PARTICLE_COORDS     [[D
+accessible   method  net/minecraft/client/particle/FireworkParticles$Starter         createParticle           (DDDDDDLit/unimi/dsi/fastutil/ints/IntList;Lit/unimi/dsi/fastutil/ints/IntList;ZZ)V
+extendable   method  net/minecraft/client/particle/FireworkParticles$Starter         createParticleBall       (DILit/unimi/dsi/fastutil/ints/IntList;Lit/unimi/dsi/fastutil/ints/IntList;ZZ)V
+extendable   method  net/minecraft/client/particle/FireworkParticles$Starter         createParticleShape      (D[[DLit/unimi/dsi/fastutil/ints/IntList;Lit/unimi/dsi/fastutil/ints/IntList;ZZZ)V
+extendable   method  net/minecraft/client/particle/FireworkParticles$Starter         createParticleBurst      (Lit/unimi/dsi/fastutil/ints/IntList;Lit/unimi/dsi/fastutil/ints/IntList;ZZ)V
+accessible   method  net/minecraft/client/particle/Particle                          setAlpha                 (F)V
+accessible   method   net/minecraft/client/particle/FireworkParticles$SparkParticle  <init>                   (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/client/particle/ParticleEngine;Lnet/minecraft/client/particle/SpriteSet;)V
+accessible   class   net/minecraft/client/particle/FireworkParticles$SparkParticle

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "@": {
+      "item": "fireworkcapsules:ball_capsule"
+    },
+    "$": {
+      "item": "minecraft:iron_ingot"
+    },
+    "^": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "pattern": [
+    "###",
+    "#@#",
+    "$^$"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fireworkcapsules:capsule_station"
+  }
+}

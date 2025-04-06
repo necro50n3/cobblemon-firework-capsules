@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "fireworkcapsules:block/capsule_station",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "fireworkcapsules:block/capsule_station"
+    },
+    "facing=south": {
+      "model": "fireworkcapsules:block/capsule_station",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "fireworkcapsules:block/capsule_station",
+      "y": 270
+    }
+  }
+}

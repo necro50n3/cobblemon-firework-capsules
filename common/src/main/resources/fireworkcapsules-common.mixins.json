@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.necro.fireworkcapsules.common.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "LevelMixin",
+    "PokemonMixin"
+  ],
+  "client": [
+    "ClientLevelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

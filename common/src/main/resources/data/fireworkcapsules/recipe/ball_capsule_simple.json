@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "@": {
+      "tag": "cobblemon:apricorns"
+    }
+  },
+  "pattern": [
+    " # ",
+    "#@#",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "id": "fireworkcapsules:ball_capsule"
+  }
+}
