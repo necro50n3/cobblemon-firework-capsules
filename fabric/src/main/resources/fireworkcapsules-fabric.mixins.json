@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.necro.fireworkcapsules.fabric.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ScreensMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

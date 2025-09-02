@@ -20,7 +20,9 @@ public class FireworkCapsules {
 
         CobblemonEvents.POKEMON_SENT_POST.subscribe(Priority.NORMAL, event -> {
             PokemonEntity entity = event.getPokemonEntity();
+            if (entity == null) return Unit.INSTANCE;
             Pokemon pokemon = event.getPokemon();
+            if (pokemon == null) return Unit.INSTANCE;
 
             ItemStack capsuleStack = ((ICapsuleHolder) pokemon).getCapsule(entity.registryAccess());
             if (capsuleStack.isEmpty()) return Unit.INSTANCE;
