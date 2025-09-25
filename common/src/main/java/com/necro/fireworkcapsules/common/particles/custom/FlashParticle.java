@@ -90,6 +90,7 @@ public class FlashParticle extends StickerParticle {
         @Override
         public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             FlashParticle flashParticle = (FlashParticle) super.createParticle(simpleParticleType, clientLevel, d, e, f, g, h, i);
+            if (flashParticle == null) return null;
             flashParticle.setSprite(flashParticle.sprites.get(this.random));
             flashParticle.setStatic(true);
             return flashParticle;

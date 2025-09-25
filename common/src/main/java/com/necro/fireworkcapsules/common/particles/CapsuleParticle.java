@@ -89,7 +89,7 @@ public class CapsuleParticle extends FireworkParticles {
 
                 int colorValue = colors.getInt(0);
                 Particle particle = this.engine.createParticle(ParticleTypes.FLASH, this.x, this.y, this.z, 0.0, 0.0, 0.0);
-                particle.setColor((float) FastColor.ARGB32.red(colorValue) / 255.0F, (float) FastColor.ARGB32.green(colorValue) / 255.0F, (float) FastColor.ARGB32.blue(colorValue) / 255.0F);
+                if (particle != null) particle.setColor((float) FastColor.ARGB32.red(colorValue) / 255.0F, (float) FastColor.ARGB32.green(colorValue) / 255.0F, (float) FastColor.ARGB32.blue(colorValue) / 255.0F);
             }
 
             if (++this.life > this.lifetime) this.remove();

@@ -213,6 +213,7 @@ public class StickerParticle extends SimpleAnimatedParticle {
         @Override
         public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             StickerParticle stickerParticle = (StickerParticle) super.createParticle(simpleParticleType, clientLevel, d, e, f, g, h, i);
+            if (stickerParticle == null) return null;
             stickerParticle.setColor(this.color);
             return stickerParticle;
         }
@@ -230,6 +231,7 @@ public class StickerParticle extends SimpleAnimatedParticle {
         @Override
         public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             StickerParticle stickerParticle = (StickerParticle) super.createParticle(simpleParticleType, clientLevel, d, e, f, g, h, i);
+            if (stickerParticle == null) return null;
             stickerParticle.setSprite(stickerParticle.sprites.get(this.random));
             stickerParticle.setStatic(true);
             return stickerParticle;
@@ -248,6 +250,7 @@ public class StickerParticle extends SimpleAnimatedParticle {
         @Override
         public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             StickerParticle stickerParticle = (StickerParticle) super.createParticle(simpleParticleType, clientLevel, d, e, f, g, h, i);
+            if (stickerParticle == null) return null;
             stickerParticle.setSprite(stickerParticle.sprites.get(this.random));
             stickerParticle.setStatic(true);
             return stickerParticle;
