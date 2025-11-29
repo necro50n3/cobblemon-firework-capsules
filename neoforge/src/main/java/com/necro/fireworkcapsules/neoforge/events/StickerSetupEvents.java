@@ -12,7 +12,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class StickerSetupEvents {
-    @EventBusSubscriber(value = Dist.CLIENT, modid = FireworkCapsules.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(value = Dist.CLIENT, modid = FireworkCapsules.MOD_ID)
     public static class ClientEvents {
         @SubscribeEvent
         public static void onClientStart(FMLClientSetupEvent event) {

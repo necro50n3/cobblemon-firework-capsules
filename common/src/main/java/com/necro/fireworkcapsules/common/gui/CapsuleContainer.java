@@ -34,7 +34,7 @@ public class CapsuleContainer extends SimpleContainer {
         List<ItemStack> items = new ArrayList<>();
         Pokemon[] pokemonList = new Pokemon[6];
 
-        ClientParty party = CobblemonClient.INSTANCE.getStorage().getMyParty();
+        ClientParty party = CobblemonClient.INSTANCE.getStorage().getParty();
         for (int i = 0; i < 6; i++) {
             Pokemon pokemon = party.get(i);
             if (pokemon == null) items.add(ItemStack.EMPTY);

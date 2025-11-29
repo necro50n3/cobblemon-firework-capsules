@@ -1,12 +1,13 @@
 package com.necro.fireworkcapsules.common.mixins;
 
-import com.cobblemon.mod.common.api.reactive.SimpleObservable;
+import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
 import com.necro.fireworkcapsules.common.util.ICapsuleHolder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,8 +17,8 @@ public abstract class PokemonMixin implements ICapsuleHolder {
     @Shadow(remap = false)
     public abstract CompoundTag getPersistentData();
 
-    @Shadow(remap = false)
-    public abstract SimpleObservable<Pokemon> getAnyChangeObservable();
+    @Shadow
+    public abstract void onChange(@Nullable PokemonUpdatePacket<?> packet);
 
     @Unique
     private ItemStack capsule;
@@ -28,7 +29,7 @@ public abstract class PokemonMixin implements ICapsuleHolder {
         this.capsule = itemStack;
         if (!this.capsule.isEmpty()) this.getPersistentData().put("firework_capsule", this.capsule.save(provider));
         else this.getPersistentData().remove("firework_capsule");
-        this.getAnyChangeObservable().emit((Pokemon) (Object) this);
+        this.onChange(null);
     }
 
     @Override

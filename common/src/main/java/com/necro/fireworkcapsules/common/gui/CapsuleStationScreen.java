@@ -34,7 +34,7 @@ public class CapsuleStationScreen extends AbstractContainerScreen<CapsuleStation
     @Override
     protected void init() {
         super.init();
-        ClientParty party = CobblemonClient.INSTANCE.getStorage().getMyParty();
+        ClientParty party = CobblemonClient.INSTANCE.getStorage().getParty();
         int x = (width - this.imageWidth) / 2;
         int y = (height - this.imageHeight) / 2;
 
@@ -51,6 +51,7 @@ public class CapsuleStationScreen extends AbstractContainerScreen<CapsuleStation
                 0.85f,
                 325f,
                 -4.0,
+                false,
                 false
             );
             addRenderableOnly(modelWidget);

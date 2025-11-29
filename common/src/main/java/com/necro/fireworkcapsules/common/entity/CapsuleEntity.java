@@ -1,7 +1,6 @@
 package com.necro.fireworkcapsules.common.entity;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.necro.fireworkcapsules.common.FireworkCapsules;
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
 import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;

@@ -17,7 +17,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 public class ModEvents {
-    @EventBusSubscriber(value = Dist.CLIENT, modid = FireworkCapsules.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(value = Dist.CLIENT, modid = FireworkCapsules.MOD_ID)
     public static class ClientEvents {
         @SubscribeEvent
         public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
@@ -42,7 +42,7 @@ public class ModEvents {
         }
     }
 
-    @EventBusSubscriber(modid = FireworkCapsules.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = FireworkCapsules.MOD_ID)
     public static class CommonEvents {
         @SubscribeEvent
         public static void registerParticles(RegisterEvent event) {
