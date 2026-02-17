@@ -1,6 +1,7 @@
 package com.necro.fireworkcapsules.fabric;
 
 import com.necro.fireworkcapsules.common.FireworkCapsules;
+import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
 import com.necro.fireworkcapsules.fabric.blocks.FabricBlocks;
 import com.necro.fireworkcapsules.fabric.components.FabricComponents;
 import com.necro.fireworkcapsules.fabric.entities.FabricEntities;
@@ -9,6 +10,7 @@ import com.necro.fireworkcapsules.fabric.items.FabricItems;
 import com.necro.fireworkcapsules.fabric.particles.FabricParticles;
 import com.necro.fireworkcapsules.fabric.recipes.FabricRecipes;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 
 public class FireworkCapsulesFabric implements ModInitializer {
     @Override
@@ -21,6 +23,8 @@ public class FireworkCapsulesFabric implements ModInitializer {
         FabricMenus.register();
         FabricParticles.register();
         FabricRecipes.register();
+
+        DynamicRegistries.registerSynced(StickerExplosion.STICKERS, StickerExplosion.SIMPLE_CODEC, StickerExplosion.SIMPLE_CODEC);
     }
 
 }

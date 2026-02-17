@@ -1,19 +1,27 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:paper"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "cobblemon:grass_gem"
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "item": "cobblemon:grass_gem"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "ids": [
+                    "fireworkcapsules:grass_sticker"
+                ],
+                "color": 7194922
+            }
+        }
     }
-  ],
-  "result": {
-    "count": 1,
-    "id": "fireworkcapsules:grass_sticker"
-  }
 }

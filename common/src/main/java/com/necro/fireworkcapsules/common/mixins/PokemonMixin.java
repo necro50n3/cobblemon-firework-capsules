@@ -17,27 +17,27 @@ public abstract class PokemonMixin implements ICapsuleHolder {
     @Shadow(remap = false)
     public abstract CompoundTag getPersistentData();
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract void onChange(@Nullable PokemonUpdatePacket<?> packet);
 
     @Unique
-    private ItemStack capsule;
+    private ItemStack fc_capsule;
 
     @Override
-    public void setCapsule(HolderLookup.Provider provider, ItemStack itemStack) {
+    public void fc_setCapsule(HolderLookup.Provider provider, ItemStack itemStack) {
         if (!itemStack.is(FireworkCapsuleItems.BALL_CAPSULE) && !itemStack.isEmpty()) return;
-        this.capsule = itemStack;
-        if (!this.capsule.isEmpty()) this.getPersistentData().put("firework_capsule", this.capsule.save(provider));
+        this.fc_capsule = itemStack;
+        if (!this.fc_capsule.isEmpty()) this.getPersistentData().put("firework_capsule", this.fc_capsule.save(provider));
         else this.getPersistentData().remove("firework_capsule");
         this.onChange(null);
     }
 
     @Override
-    public ItemStack getCapsule(HolderLookup.Provider provider) {
-        if (this.capsule == null && this.getPersistentData().contains("firework_capsule")) {
-            this.capsule = ItemStack.parseOptional(provider, this.getPersistentData().getCompound("firework_capsule"));
+    public ItemStack fc_getCapsule(HolderLookup.Provider provider) {
+        if (this.fc_capsule == null && this.getPersistentData().contains("firework_capsule")) {
+            this.fc_capsule = ItemStack.parseOptional(provider, this.getPersistentData().getCompound("firework_capsule"));
         }
-        if (this.capsule == null) this.capsule = ItemStack.EMPTY;
-        return this.capsule;
+        if (this.fc_capsule == null) this.fc_capsule = ItemStack.EMPTY;
+        return this.fc_capsule;
     }
 }

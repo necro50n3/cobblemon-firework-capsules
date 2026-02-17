@@ -2,6 +2,7 @@ package com.necro.fireworkcapsules.fabric.items;
 
 import com.necro.fireworkcapsules.common.FireworkCapsules;
 import com.necro.fireworkcapsules.common.blocks.FireworkCapsuleBlocks;
+import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
 import com.necro.fireworkcapsules.common.item.BallCapsuleItem;
 import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
 import com.necro.fireworkcapsules.common.item.StickerItem;
@@ -23,6 +24,7 @@ public class FabricItems {
             new BallCapsuleItem()
         );
 
+        FireworkCapsuleItems.STICKER = Registry.registerForHolder(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker"), new StickerItem());
         FireworkCapsuleItems.BUG_STICKER = registerSticker("bug_sticker", ElementalStickers.BUG_STICKER);
         FireworkCapsuleItems.DARK_STICKER = registerSticker("dark_sticker", ElementalStickers.DARK_STICKER);
         FireworkCapsuleItems.DRAGON_STICKER = registerSticker("dragon_sticker", ElementalStickers.DRAGON_STICKER);
@@ -50,24 +52,12 @@ public class FabricItems {
                     entries.accept(FireworkCapsuleBlocks.CAPSULE_STATION.value());
                     entries.accept(FireworkCapsuleItems.BALL_CAPSULE.value());
 
-                    entries.accept(FireworkCapsuleItems.BUG_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.DARK_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.DRAGON_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.ELECTRIC_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.FAIRY_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.FIGHTING_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.FIRE_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.FLYING_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.GHOST_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.GRASS_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.GROUND_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.ICE_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.NORMAL_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.POISON_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.PSYCHIC_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.ROCK_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.STEEL_STICKER.value());
-                    entries.accept(FireworkCapsuleItems.WATER_STICKER.value());
+                    context.holders().lookupOrThrow(StickerExplosion.STICKERS).listElements().forEach(reference -> {
+                        StickerExplosion sticker = reference.value();
+                        ItemStack itemStack = FireworkCapsuleItems.STICKER.value().getDefaultInstance();
+                        itemStack.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), sticker);
+                        entries.accept(itemStack);
+                    });
                 }).build()
         );
     }

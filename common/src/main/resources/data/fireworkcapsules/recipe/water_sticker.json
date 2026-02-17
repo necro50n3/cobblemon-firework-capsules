@@ -1,19 +1,27 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:paper"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "cobblemon:water_gem"
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "item": "cobblemon:water_gem"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "ids": [
+                    "fireworkcapsules:water_sticker"
+                ],
+                "color": 2209279
+            }
+        }
     }
-  ],
-  "result": {
-    "count": 1,
-    "id": "fireworkcapsules:water_sticker"
-  }
 }

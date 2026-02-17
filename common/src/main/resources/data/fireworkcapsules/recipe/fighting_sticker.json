@@ -1,19 +1,27 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "category": "misc",
-  "ingredients": [
-    {
-      "item": "minecraft:paper"
-    },
-    {
-      "item": "minecraft:gunpowder"
-    },
-    {
-      "item": "cobblemon:fighting_gem"
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "item": "cobblemon:fighting_gem"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "ids": [
+                    "fireworkcapsules:fighting_sticker"
+                ],
+                "color": 13920000
+            }
+        }
     }
-  ],
-  "result": {
-    "count": 1,
-    "id": "fireworkcapsules:fighting_sticker"
-  }
 }

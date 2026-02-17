@@ -1,29 +1,42 @@
 package com.necro.fireworkcapsules.common.stickers;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.FireworkExplosion;
 import net.minecraft.world.item.component.TooltipProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record StickerExplosion(ResourceLocation id, IntList colors, IntList fadeColors, boolean hasTrail, boolean hasTwinkle) implements TooltipProvider {
-    private static final StreamCodec<ByteBuf, IntList> COLOR_LIST_STREAM_CODEC = ByteBufCodecs.INT.apply(ByteBufCodecs.list()).map(IntArrayList::new, ArrayList::new);
+public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntList fadeColors, boolean hasTrail, boolean hasTwinkle, String sound, StickerType type) implements TooltipProvider {
+    public static final ResourceKey<Registry<StickerExplosion>> STICKERS = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("sticker", "explosion"));
+
+    public StickerExplosion(ResourceLocation id, IntList colors, IntList fadeColors, boolean hasTrail, boolean hasTwinkle, String sound, StickerType type) {
+        this(List.of(id), colors, fadeColors, hasTrail, hasTwinkle, sound, type);
+    }
+
+    public StickerExplosion(List<ResourceLocation> ids, int color, String sound, StickerType type) {
+        this(ids, IntList.of(color), IntList.of(), false, false, sound, type);
+    }
+
+    public StickerExplosion(ResourceLocation id, int color, StickerType type) {
+        this(List.of(id), color, "", type);
+    }
 
     public static StickerExplosion fromFireworks(FireworkExplosion explosion) {
         ResourceLocation id = switch (explosion.shape()) {
@@ -33,7 +46,7 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
             case FireworkExplosion.Shape.CREEPER -> ResourceLocation.withDefaultNamespace("creeper");
             case FireworkExplosion.Shape.BURST -> ResourceLocation.withDefaultNamespace("burst");
         };
-        return new StickerExplosion(id, explosion.colors(), explosion.fadeColors(), explosion.hasTrail(), explosion.hasTwinkle());
+        return new StickerExplosion(id, explosion.colors(), explosion.fadeColors(), explosion.hasTrail(), explosion.hasTwinkle(), "", StickerType.FIREWORKS);
     }
 
     @Override
@@ -43,7 +56,19 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
     }
 
     public void addParticleNameTooltip(Consumer<Component> consumer) {
-        consumer.accept(this.getName().withStyle(ChatFormatting.GRAY));
+        MutableComponent name = this.getName();
+        if (this.colors.isEmpty()) name = name.withStyle(ChatFormatting.GRAY);
+        else name = name.withColor(this.isTooDark(this.color()) ? 11184810 : this.color());
+        consumer.accept(name);
+    }
+
+    private boolean isTooDark(int color) {
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+
+        int distanceSquared = r*r + g*g + b*b;
+        return distanceSquared < 5000;
     }
 
     public void addAdditionalTooltip(Consumer<Component> consumer) {
@@ -90,21 +115,64 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
         return Component.translatable(String.format("item.%s.sticker.id.%s", this.id().getNamespace(), this.id().getPath()));
     }
 
-    public static final Codec<StickerExplosion> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-            ResourceLocation.CODEC.fieldOf("id").forGetter(StickerExplosion::id),
-            FireworkExplosion.COLOR_LIST_CODEC.optionalFieldOf("colors", IntList.of()).forGetter(StickerExplosion::colors),
-            FireworkExplosion.COLOR_LIST_CODEC.optionalFieldOf("fade_colors", IntList.of()).forGetter(StickerExplosion::fadeColors),
-            Codec.BOOL.optionalFieldOf("has_trail", false).forGetter(StickerExplosion::hasTrail),
-            Codec.BOOL.optionalFieldOf("has_twinkle", false).forGetter(StickerExplosion::hasTwinkle))
+    public ResourceLocation id() {
+        return this.ids.getFirst();
+    }
+
+    private int color() {
+        return this.colors.getFirst();
+    }
+
+    public SoundEvent createSound() {
+        if (this.sound == null || this.sound.isEmpty()) return null;
+        return SoundEvent.createVariableRangeEvent(ResourceLocation.parse(this.sound));
+    }
+
+    @Override
+    public @NotNull String toString() {
+        String string = "ids=" + this.ids().toString() + " colors=" + this.colors().toString();
+        if (!this.fadeColors().isEmpty()) string += " fadeColors=" + this.fadeColors();
+        string += " hasTrail=" + this.hasTrail() + " hasTwinkle=" + this.hasTwinkle();
+        if (!this.sound().isBlank()) string += " sound=" + this.sound();
+        return string;
+    }
+
+    public static final Codec<StickerExplosion> DIRECT_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+            ResourceLocation.CODEC.listOf().fieldOf("ids").forGetter(StickerExplosion::ids),
+            FireworkExplosion.COLOR_LIST_CODEC.fieldOf("colors").forGetter(StickerExplosion::colors),
+            FireworkExplosion.COLOR_LIST_CODEC.fieldOf("fade_colors").orElse(IntList.of()).forGetter(StickerExplosion::fadeColors),
+            Codec.BOOL.fieldOf("has_trail").orElse(false).forGetter(StickerExplosion::hasTrail),
+            Codec.BOOL.fieldOf("has_twinkle").orElse(false).forGetter(StickerExplosion::hasTwinkle),
+            Codec.STRING.fieldOf("sound").orElse("").forGetter(StickerExplosion::sound),
+            StickerType.CODEC.fieldOf("type").orElse(StickerType.BEDROCK).forGetter(StickerExplosion::type))
         .apply(instance, StickerExplosion::new)
     );
 
-    public static final StreamCodec<ByteBuf, StickerExplosion> STREAM_CODEC = StreamCodec.composite(
-        ResourceLocation.STREAM_CODEC, StickerExplosion::id,
-        COLOR_LIST_STREAM_CODEC, StickerExplosion::colors,
-        COLOR_LIST_STREAM_CODEC, StickerExplosion::fadeColors,
-        ByteBufCodecs.BOOL, StickerExplosion::hasTrail,
-        ByteBufCodecs.BOOL, StickerExplosion::hasTwinkle,
-        StickerExplosion::new
+    public static final Codec<StickerExplosion> SIMPLE_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+            ResourceLocation.CODEC.listOf().fieldOf("ids").forGetter(StickerExplosion::ids),
+            Codec.INT.fieldOf("color").orElse(-1).forGetter(StickerExplosion::color),
+            Codec.STRING.fieldOf("sound").orElse("").forGetter(StickerExplosion::sound),
+            StickerType.CODEC.fieldOf("type").orElse(StickerType.BEDROCK).forGetter(StickerExplosion::type))
+        .apply(instance, StickerExplosion::new)
     );
+
+    public static final Codec<StickerExplosion> TRUE_CODEC = Codec.either(DIRECT_CODEC, SIMPLE_CODEC)
+        .xmap(either -> either.map(direct -> direct, simple -> simple), Either::left);
+
+    public static final Codec<StickerExplosion> FALLBACK_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+            ResourceLocation.CODEC.fieldOf("id").forGetter(StickerExplosion::id),
+            FireworkExplosion.COLOR_LIST_CODEC.fieldOf("colors").forGetter(StickerExplosion::colors),
+            FireworkExplosion.COLOR_LIST_CODEC.fieldOf("fade_colors").orElse(IntList.of()).forGetter(StickerExplosion::fadeColors),
+            Codec.BOOL.fieldOf("has_trail").orElse(false).forGetter(StickerExplosion::hasTrail),
+            Codec.BOOL.fieldOf("has_twinkle").orElse(false).forGetter(StickerExplosion::hasTwinkle),
+            Codec.STRING.fieldOf("sound").orElse("").forGetter(StickerExplosion::sound),
+            StickerType.CODEC.fieldOf("type").orElse(StickerType.BEDROCK).forGetter(StickerExplosion::type))
+        .apply(instance, (id, colors, fadeColors, hasTrail, hasTwinkle, sound, type) -> {
+            if (id.getNamespace().equals("minecraft")) type = StickerType.FIREWORKS;
+            return new StickerExplosion(id, colors, fadeColors, hasTrail, hasTwinkle, sound, type);
+        })
+    );
+
+    public static final Codec<StickerExplosion> CODEC = Codec.either(TRUE_CODEC, FALLBACK_CODEC)
+        .xmap(either -> either.map(direct -> direct, fallback -> fallback), Either::left);
 }

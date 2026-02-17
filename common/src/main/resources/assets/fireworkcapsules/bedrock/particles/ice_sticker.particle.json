@@ -1,0 +1,50 @@
+{
+    "format_version": "1.10.0",
+    "particle_effect": {
+        "description": {
+            "identifier": "fireworkcapsules:ice_sticker",
+            "basic_render_parameters": {
+                "material": "particles_alpha",
+                "texture": "fireworkcapsules:textures/particles/ice_sticker"
+            }
+        },
+        "components": {
+            "minecraft:emitter_rate_steady": {
+                "spawn_rate": "25 * math.clamp(q.entity_size / 1.5, 1, 4)",
+                "max_particles": "80 * math.clamp(q.entity_size / 1.5, 1, 4)"
+            },
+            "minecraft:emitter_lifetime_once": {
+                "active_time": 2
+            },
+            "minecraft:emitter_shape_sphere": {
+                "offset": [0, "q.entity_height", 0],
+                "radius": "2 * math.max(q.entity_width * 2, 1)",
+                "direction": ["(v.particle_random_1 - 0.5) * 2", -1, "(v.particle_random_1 - 0.5) * 2"]
+            },
+            "minecraft:particle_lifetime_expression": {
+                "max_lifetime": "1.5 + math.random(0.5, 1.5)"
+            },
+            "minecraft:particle_initial_spin": {
+                "rotation": "(v.particle_random_1 - 0.5) * 90",
+                "rotation_rate": "(v.particle_random_2 - 0.5) * 90"
+            },
+            "minecraft:particle_initial_speed": 0.5,
+            "minecraft:particle_motion_dynamic": {
+                "linear_drag_coefficient": 0.25
+            },
+            "minecraft:particle_appearance_billboard": {
+                "size": ["0.2 * math.clamp(q.entity_size / 4, 1, 2)", "0.2 * math.clamp(q.entity_size / 4, 1, 2)"],
+                "facing_camera_mode": "rotate_xyz",
+                "uv": {
+                    "texture_width": 16,
+                    "texture_height": 64,
+                    "uv": [0, "16 * math.floor(v.particle_random_1 * 4)"],
+                    "uv_size": [16, 16]
+                }
+            },
+            "minecraft:particle_appearance_tinting": {
+                "color": [1, 1, 1, 1]
+            }
+        }
+    }
+}

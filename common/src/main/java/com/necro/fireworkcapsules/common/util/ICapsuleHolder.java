@@ -4,7 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 
 public interface ICapsuleHolder {
-    void setCapsule(HolderLookup.Provider provider, ItemStack itemStack);
+    void fc_setCapsule(HolderLookup.Provider provider, ItemStack itemStack);
 
-    ItemStack getCapsule(HolderLookup.Provider provider);
+    ItemStack fc_getCapsule(HolderLookup.Provider provider);
 }

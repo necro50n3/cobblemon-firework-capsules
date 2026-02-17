@@ -12,10 +12,10 @@ import java.util.List;
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin implements IParticleCreator {
     @Override
-    public void createCapsuleParticles(double x, double y, double z, float rot, List<StickerExplosion> explosions, float scale) {
-        if (!explosions.isEmpty()) {
+    public void fc_createCapsuleParticles(double x, double y, double z, int entityId, List<StickerExplosion> stickers, float scale) {
+        if (!stickers.isEmpty()) {
             Minecraft.getInstance().particleEngine.add(new CapsuleParticle.Starter(
-                (ClientLevel) (Object) this, x, y, z, rot, Minecraft.getInstance().particleEngine, explosions, scale
+                (ClientLevel) (Object) this, x, y, z, entityId, Minecraft.getInstance().particleEngine, stickers, scale
             ));
         }
     }

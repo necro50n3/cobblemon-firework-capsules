@@ -38,7 +38,7 @@ public class CapsuleContainer extends SimpleContainer {
         for (int i = 0; i < 6; i++) {
             Pokemon pokemon = party.get(i);
             if (pokemon == null) items.add(ItemStack.EMPTY);
-            else items.add(((ICapsuleHolder) pokemon).getCapsule(player.registryAccess()));
+            else items.add(((ICapsuleHolder) pokemon).fc_getCapsule(player.registryAccess()));
             pokemonList[i] = pokemon;
         }
 
@@ -53,7 +53,7 @@ public class CapsuleContainer extends SimpleContainer {
         for (int i = 0; i < 6; i++) {
             Pokemon pokemon = party.get(i);
             if (pokemon == null) items.add(ItemStack.EMPTY);
-            else items.add(((ICapsuleHolder) pokemon).getCapsule(player.registryAccess()));
+            else items.add(((ICapsuleHolder) pokemon).fc_getCapsule(player.registryAccess()));
             pokemonList[i] = pokemon;
         }
 
@@ -74,7 +74,7 @@ public class CapsuleContainer extends SimpleContainer {
         Pokemon pokemon = this.pokemon[slot];
         if (pokemon == null) return;
 
-        ((ICapsuleHolder) pokemon).setCapsule(this.registryAccess, itemStack);
+        ((ICapsuleHolder) pokemon).fc_setCapsule(this.registryAccess, itemStack);
     }
 
     public boolean isActive(int slot) {

@@ -1,20 +1,25 @@
 package com.necro.fireworkcapsules.fabric;
 
-import com.necro.fireworkcapsules.common.events.StickerRegistry;
-import com.necro.fireworkcapsules.fabric.events.RegisterStickersEvent;
-import com.necro.fireworkcapsules.fabric.events.StickerRegistryEvent;
+import com.necro.fireworkcapsules.common.FireworkCapsules;
+import com.necro.fireworkcapsules.common.client.StickerModel;
 import com.necro.fireworkcapsules.fabric.gui.FabricMenus;
-import com.necro.fireworkcapsules.fabric.particles.FabricParticlesClient;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class FireworkCapsulesFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         FabricMenus.registerClient();
-        FabricParticlesClient.registerClient();
 
-        StickerRegistryEvent.EVENT.register(RegisterStickersEvent::register);
-        ClientLifecycleEvents.CLIENT_STARTED.register(event -> StickerRegistryEvent.EVENT.invoker().register(StickerRegistry::register));
+        ModelLoadingPlugin.register(context ->
+            context.modifyModelAfterBake().register(((model, context1) -> {
+                ModelResourceLocation id = context1.topLevelId();
+                return id != null && id.id().equals(ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker"))
+                    ? new StickerModel(model)
+                    : model;
+            }))
+        );
     }
 }

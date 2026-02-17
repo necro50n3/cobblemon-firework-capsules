@@ -1,0 +1,54 @@
+{
+    "format_version": "1.10.0",
+    "particle_effect": {
+        "description": {
+            "identifier": "fireworkcapsules:flying_sticker",
+            "basic_render_parameters": {
+                "material": "particles_alpha",
+                "texture": "fireworkcapsules:textures/particles/flying_sticker"
+            }
+        },
+        "events": {
+            "event": {}
+        },
+        "components": {
+            "minecraft:emitter_rate_steady": {
+                "spawn_rate": 200,
+                "max_particles": 400
+            },
+            "minecraft:emitter_lifetime_once": {
+                "active_time": 1
+            },
+            "minecraft:emitter_shape_point": {
+                "direction": [0, 4, 0]
+            },
+            "minecraft:particle_lifetime_expression": {
+                "max_lifetime": "math.random(0.8, 1.2)"
+            },
+            "minecraft:particle_initial_spin": {
+                "rotation": "v.particle_random_2 * 360"
+            },
+            "minecraft:particle_initial_speed": 8,
+            "minecraft:particle_motion_parametric": {
+                "relative_position": [
+                    "math.cos(v.particle_age * 720 + v.particle_random_1 * 360) * (1.0 + v.particle_random_2 * 0.7) * (0.8 + v.particle_random_3 * 0.4) * math.max(1, q.entity_size / 1.5)",
+                    "v.particle_random_2 * 2 * math.max(1, q.entity_size / 1.5)",
+                    "math.sin(v.particle_age * 720 + v.particle_random_1 * 360) * (1.0 + v.particle_random_2 * 0.7) * (0.8 + v.particle_random_3 * 0.4) * math.max(1, q.entity_size / 1.5)"]
+            },
+            "minecraft:particle_appearance_billboard": {
+                "size": ["0.3 * math.clamp(q.entity_size / 4, 1, 2)", "0.3 * math.clamp(q.entity_size / 4, 1, 2)"],
+                "facing_camera_mode": "rotate_xyz",
+                "uv": {
+                    "texture_width": 16,
+                    "texture_height": 48,
+                    "uv": [0, "16 * math.floor(v.particle_random_1 * 3)"],
+                    "uv_size": [16, 16]
+                }
+            },
+            "minecraft:particle_motion_collision": {
+                "collision_drag": 0.4,
+                "collision_radius": 0.2
+            }
+        }
+    }
+}

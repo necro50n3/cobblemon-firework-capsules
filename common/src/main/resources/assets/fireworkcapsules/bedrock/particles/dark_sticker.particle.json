@@ -1,0 +1,63 @@
+{
+    "format_version": "1.10.0",
+    "particle_effect": {
+        "description": {
+            "identifier": "fireworkcapsules:dark_sticker",
+            "basic_render_parameters": {
+                "material": "particles_blend",
+                "texture": "fireworkcapsules:textures/particles/dark_sticker"
+            }
+        },
+        "curves": {
+            "variable.fade": {
+                "type": "linear",
+                "input": "v.particle_age",
+                "horizontal_range": "v.particle_lifetime",
+                "nodes": [0, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 0]
+            },
+            "variable.speed": {
+                "type": "linear",
+                "input": "v.particle_age",
+                "horizontal_range": "v.particle_lifetime",
+                "nodes": [-0.5, -0.5, -0.5, -0.5, -0.2, 0, 0, 3, 3, 3]
+            }
+        },
+        "components": {
+            "minecraft:emitter_initialization": {
+                "creation_expression": "variable.fade_init = math.random(0.7, 1);"
+            },
+            "minecraft:emitter_rate_steady": {
+                "spawn_rate": "30 * math.clamp(q.entity_size / 1.5, 1, 4)",
+                "max_particles": "60 * math.clamp(q.entity_size / 1.5, 1, 4)"
+            },
+            "minecraft:emitter_lifetime_once": {
+                "active_time": 1
+            },
+            "minecraft:emitter_shape_sphere": {
+                "offset": [0, "q.entity_height * 0.5", 0],
+                "radius": "math.max(q.entity_width * 2, 1)",
+                "direction": [0, 1, 0]
+            },
+            "minecraft:particle_lifetime_expression": {
+                "max_lifetime": "1 + math.random(0.5, 1.5)"
+            },
+            "minecraft:particle_initial_speed": 0.5,
+            "minecraft:particle_motion_dynamic": {
+                "linear_acceleration": [0, "v.speed", 0]
+            },
+            "minecraft:particle_appearance_billboard": {
+                "size": ["0.3 * math.clamp(q.entity_size / 4, 1, 2)", "0.3 * math.clamp(q.entity_size / 4, 1, 2)"],
+                "facing_camera_mode": "rotate_xyz",
+                "uv": {
+                    "texture_width": 16,
+                    "texture_height": 16,
+                    "uv": [0, 0],
+                    "uv_size": [16, 16]
+                }
+            },
+            "minecraft:particle_appearance_tinting": {
+                "color": [1, 1, 1, "v.fade * v.fade_init"]
+            }
+        }
+    }
+}

@@ -14,12 +14,12 @@ import java.util.function.UnaryOperator;
 
 public class FabricComponents {
     public static void register() {
-        FireworkCapsuleComponents.STICKERS = registerComponent("stickers", builder -> builder.persistent(Stickers.CODEC));
-        FireworkCapsuleComponents.STICKER_EXPLOSION = registerComponent("sticker_explosion", builder -> builder.persistent(StickerExplosion.CODEC));
+        FireworkCapsuleComponents.STICKERS = Holder.direct(registerComponent("stickers", builder -> builder.persistent(Stickers.CODEC)));
+        FireworkCapsuleComponents.STICKER_EXPLOSION = Holder.direct(registerComponent("sticker_explosion", builder -> builder.persistent(StickerExplosion.CODEC)));
     }
 
-    private static <T> Holder<DataComponentType<T>> registerComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
-        return (Holder<DataComponentType<T>>) (Object) Registry.registerForHolder(BuiltInRegistries.DATA_COMPONENT_TYPE,
+    private static <T> DataComponentType<T> registerComponent(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
+        return Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE,
             ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, name),
             builderOperator.apply(DataComponentType.builder()).build()
         );

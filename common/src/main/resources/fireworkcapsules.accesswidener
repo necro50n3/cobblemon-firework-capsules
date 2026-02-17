@@ -6,5 +6,6 @@ extendable   method  net/minecraft/client/particle/FireworkParticles$Starter    
 extendable   method  net/minecraft/client/particle/FireworkParticles$Starter         createParticleShape      (D[[DLit/unimi/dsi/fastutil/ints/IntList;Lit/unimi/dsi/fastutil/ints/IntList;ZZZ)V
 extendable   method  net/minecraft/client/particle/FireworkParticles$Starter         createParticleBurst      (Lit/unimi/dsi/fastutil/ints/IntList;Lit/unimi/dsi/fastutil/ints/IntList;ZZ)V
 accessible   method  net/minecraft/client/particle/Particle                          setAlpha                 (F)V
-accessible   method   net/minecraft/client/particle/FireworkParticles$SparkParticle  <init>                   (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/client/particle/ParticleEngine;Lnet/minecraft/client/particle/SpriteSet;)V
+accessible   method  net/minecraft/client/particle/FireworkParticles$SparkParticle   <init>                   (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDDLnet/minecraft/client/particle/ParticleEngine;Lnet/minecraft/client/particle/SpriteSet;)V
+accessible   method  net/minecraft/client/renderer/block/model/ItemOverrides         <init>                   ()V
 accessible   class   net/minecraft/client/particle/FireworkParticles$SparkParticle

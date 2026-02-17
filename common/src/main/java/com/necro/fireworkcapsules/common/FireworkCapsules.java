@@ -15,6 +15,7 @@ public class FireworkCapsules {
     public static final String MOD_ID = "fireworkcapsules";
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    @SuppressWarnings("ConstantConditions")
     public static void init() {
         LOGGER.info("Initiating {}", MOD_ID);
 
@@ -24,7 +25,7 @@ public class FireworkCapsules {
             Pokemon pokemon = event.getPokemon();
             if (pokemon == null) return Unit.INSTANCE;
 
-            ItemStack capsuleStack = ((ICapsuleHolder) pokemon).getCapsule(entity.registryAccess());
+            ItemStack capsuleStack = ((ICapsuleHolder) pokemon).fc_getCapsule(entity.registryAccess());
             if (capsuleStack.isEmpty()) return Unit.INSTANCE;
 
             CapsuleEntity capsuleEntity = new CapsuleEntity(entity.level(), entity.getX(),

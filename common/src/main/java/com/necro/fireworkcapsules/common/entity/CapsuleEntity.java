@@ -74,7 +74,7 @@ public class CapsuleEntity extends Entity implements ItemSupplier {
             Entity entity = this.level().getEntity(entityId.getAsInt());
             if (!(entity instanceof PokemonEntity pokemonEntity)) return;
             float scale = this.getScale(pokemonEntity);
-            ((IParticleCreator) this.level()).createCapsuleParticles(this.getX(), this.getY(), this.getZ(), pokemonEntity.yBodyRot, this.getExplosions(), scale);
+            ((IParticleCreator) this.level()).fc_createCapsuleParticles(this.getX(), this.getY(), this.getZ(), pokemonEntity.getId(), this.getExplosions(), scale);
         }
 
         super.handleEntityEvent(b);

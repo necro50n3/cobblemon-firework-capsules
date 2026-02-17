@@ -1,0 +1,59 @@
+{
+	"format_version": "1.10.0",
+	"particle_effect": {
+		"description": {
+			"identifier": "fireworkcapsules:ground_sticker",
+			"basic_render_parameters": {
+				"material": "particles_alpha",
+				"texture": "fireworkcapsules:textures/particles/ground_sticker"
+			}
+		},
+		"curves": {
+			"variable.drag": {
+				"type": "bezier",
+				"input": "v.particle_age",
+				"horizontal_range": "v.particle_lifetime",
+				"nodes": [0, 0.23, 0.5, 0.5]
+			}
+		},
+		"components": {
+			"minecraft:emitter_rate_steady": {
+				"spawn_rate": "80 * math.clamp(q.entity_size / 1.5, 1, 4)",
+				"max_particles": "160 * math.clamp(q.entity_size / 1.5, 1, 4)"
+			},
+			"minecraft:emitter_lifetime_once": {
+				"active_time": 2
+			},
+			"minecraft:emitter_shape_disc": {
+				"surface_only": true
+			},
+			"minecraft:particle_lifetime_expression": {
+				"max_lifetime": "1 + math.random(0.5, 1.5) - v.emitter_age"
+			},
+			"minecraft:particle_initial_spin": {
+				"rotation": "v.particle_random_1 * 360",
+				"rotation_rate": "(v.particle_random_2 - 0.5) * 180"
+			},
+			"minecraft:particle_initial_speed": 2,
+			"minecraft:particle_motion_parametric": {
+				"relative_position": ["math.cos(v.particle_random_1 * 360) * v.particle_age * 3* math.max(1, q.entity_size / 1.5) * (1 - v.drag)", 0.3, "math.sin(v.particle_random_1 * 360) * v.particle_age * 3* math.max(1, q.entity_size / 1.5) * (1 - v.drag)"]
+			},
+			"minecraft:particle_appearance_billboard": {
+				"size": ["0.5 * math.clamp(q.entity_size / 4, 1, 2)", "0.5 * math.clamp(q.entity_size / 4, 1, 2)"],
+				"facing_camera_mode": "rotate_xyz",
+				"uv": {
+					"texture_width": 16,
+					"texture_height": 196,
+					"flipbook": {
+						"base_UV": [0, 0],
+						"size_UV": [16, 16],
+						"step_UV": [0, 16],
+						"frames_per_second": 12,
+						"max_frame": 12,
+						"stretch_to_lifetime": true
+					}
+				}
+			}
+		}
+	}
+}

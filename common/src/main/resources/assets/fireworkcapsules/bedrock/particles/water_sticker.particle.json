@@ -1,0 +1,51 @@
+{
+	"format_version": "1.10.0",
+	"particle_effect": {
+		"description": {
+			"identifier": "fireworkcapsules:water_sticker",
+			"basic_render_parameters": {
+				"material": "particles_alpha",
+				"texture": "fireworkcapsules:textures/particles/water_sticker"
+			}
+		},
+		"curves": {
+			"variable.frame": {
+				"type": "linear",
+				"input": "v.particle_age",
+				"horizontal_range": "v.particle_lifetime",
+				"nodes": [0, 0, 0, 0, 0, 1, 2, 3, 4, 4]
+			}
+		},
+		"components": {
+			"minecraft:emitter_rate_steady": {
+				"spawn_rate": "40 * math.clamp(q.entity_size / 1.5, 1, 4)",
+				"max_particles": "80 * math.clamp(q.entity_size / 1.5, 1, 4)"
+			},
+			"minecraft:emitter_lifetime_once": {
+				"active_time": 1
+			},
+			"minecraft:emitter_shape_sphere": {
+				"offset": [0, "q.entity_height * 0.5", 0],
+				"radius": "math.max(q.entity_width * 2, 1)",
+				"direction": [0, 1, 0]
+			},
+			"minecraft:particle_lifetime_expression": {
+				"max_lifetime": "0.5 + math.random(0.5, 1)"
+			},
+			"minecraft:particle_initial_speed": 0.25,
+			"minecraft:particle_motion_dynamic": {
+				"linear_drag_coefficient": 2
+			},
+			"minecraft:particle_appearance_billboard": {
+				"size": ["0.2 * math.clamp(q.entity_size / 4, 1, 2)", "0.2 * math.clamp(q.entity_size / 4, 1, 2)"],
+				"facing_camera_mode": "rotate_xyz",
+				"uv": {
+					"texture_width": 16,
+					"texture_height": 80,
+					"uv": [0, "math.floor(v.frame) * 16"],
+					"uv_size": [16, 16]
+				}
+			}
+		}
+	}
+}

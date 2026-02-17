@@ -1,11 +1,15 @@
 package com.necro.fireworkcapsules.common.particles;
 
+import com.cobblemon.mod.common.client.net.effect.SpawnSnowstormEntityParticleHandler;
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormEntityParticlePacket;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
+import com.necro.fireworkcapsules.common.stickers.StickerType;
 import com.necro.fireworkcapsules.common.util.CustomParticleFunction;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.FireworkParticles;
 import net.minecraft.client.particle.NoRenderParticle;
@@ -13,6 +17,8 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.DyeColor;
@@ -23,28 +29,26 @@ import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class CapsuleParticle extends FireworkParticles {
-    private static final Map<ResourceLocation, CustomParticleFunction> EXPLOSION_MAP = new HashMap<>();
+    private static final Map<ResourceLocation, CustomParticleFunction> CUSTOM_PARTICLE_MAP = new HashMap<>();
 
-    public CapsuleParticle() {}
-
-    public static void register(ResourceLocation id, CustomParticleFunction consumer) {
-        EXPLOSION_MAP.put(id, consumer);
+    public static void register(ResourceLocation sticker, CustomParticleFunction function) {
+        CUSTOM_PARTICLE_MAP.put(sticker, function);
     }
 
     @Environment(EnvType.CLIENT)
     public static class Starter extends NoRenderParticle {
         private int life;
-        private final float rot;
+        private final int entityId;
         private final ParticleEngine engine;
-        private final List<StickerExplosion> explosions;
+        private final List<StickerExplosion> stickers;
         protected final float scale;
         protected final double scaleFactor;
 
-        public Starter(ClientLevel clientLevel, double d, double e, double f, float rot, ParticleEngine particleEngine, List<StickerExplosion> list, float scale) {
-            super(clientLevel, d, e, f, 0, 0, 0);
+        public Starter(ClientLevel level, double d, double e, double f, int entityId, ParticleEngine engine, List<StickerExplosion> list, float scale) {
+            super(level, d, e, f, 0, 0, 0);
             this.life = 0;
-            this.rot = rot;
-            this.engine = particleEngine;
+            this.entityId = entityId;
+            this.engine = engine;
             this.scale = scale;
             if (scale < 1.0f) this.scaleFactor = 2.0;
             else if (scale < 2.0f) this.scaleFactor = 1.0;
@@ -52,44 +56,56 @@ public class CapsuleParticle extends FireworkParticles {
             else this.scaleFactor = 0.25;
 
             if (list.isEmpty()) {
-                throw new IllegalArgumentException("Cannot create capsule starter with no explosions");
+                throw new IllegalArgumentException("Cannot create capsule starter with no stickers");
             } else {
-                this.explosions = list;
+                this.stickers = list;
                 this.lifetime = list.size() * 2 - 1;
-                if (this.explosions.stream().anyMatch(StickerExplosion::hasTwinkle)) this.lifetime += 15;
+                if (this.stickers.stream().anyMatch(StickerExplosion::hasTwinkle)) this.lifetime += 15;
             }
         }
 
         @Override
         public void tick() {
-            if (this.life % 2 == 0 && this.life / 2 < this.explosions.size()) {
-                StickerExplosion explosion = this.explosions.get(this.life / 2);
-                boolean hasTrail = explosion.hasTrail();
-                boolean hasTwinkle = explosion.hasTwinkle();
-                IntList colors = explosion.colors();
-                IntList fadeColors = explosion.fadeColors();
+            if (this.life % 2 == 0 && this.life / 2 < this.stickers.size()) {
+                StickerExplosion sticker = this.stickers.get(this.life / 2);
+                boolean hasTrail = sticker.hasTrail();
+                boolean hasTwinkle = sticker.hasTwinkle();
+                IntList colors = sticker.colors();
+                IntList fadeColors = sticker.fadeColors();
                 if (colors.isEmpty()) {
                     colors = IntList.of(DyeColor.BLACK.getFireworkColor());
                 }
 
-                if (explosion.id().getNamespace().equals("minecraft")) {
-                    switch (explosion.id().getPath()) {
-                        case "small_ball" -> this.createParticleBall(0.2, 2, colors, fadeColors, hasTrail, hasTwinkle);
-                        case "large_ball" -> this.createParticleBall(0.25, 3, colors, fadeColors, hasTrail, hasTwinkle);
-                        case "star" -> this.createParticleShape(0.3, FireworkParticles.Starter.STAR_PARTICLE_COORDS, colors, fadeColors, hasTrail, hasTwinkle, false);
-                        case "creeper" -> this.createParticleShape(0.3, FireworkParticles.Starter.CREEPER_PARTICLE_COORDS, colors, fadeColors, hasTrail, hasTwinkle, true);
-                        case "burst" -> this.createParticleBurst(colors, fadeColors, hasTrail, hasTwinkle);
-                        default -> {}
+                if (sticker.type() == StickerType.FIREWORKS) {
+                    if (sticker.id().getNamespace().equals("minecraft")) {
+                        switch (sticker.id().getPath()) {
+                            case "small_ball" -> this.createParticleBall(0.2, 2, colors, fadeColors, hasTrail, hasTwinkle);
+                            case "large_ball" -> this.createParticleBall(0.25, 3, colors, fadeColors, hasTrail, hasTwinkle);
+                            case "star" -> this.createParticleShape(0.3, FireworkParticles.Starter.STAR_PARTICLE_COORDS, colors, fadeColors, hasTrail, hasTwinkle, false);
+                            case "creeper" -> this.createParticleShape(0.3, FireworkParticles.Starter.CREEPER_PARTICLE_COORDS, colors, fadeColors, hasTrail, hasTwinkle, true);
+                            case "burst" -> this.createParticleBurst(colors, fadeColors, hasTrail, hasTwinkle);
+                            default -> {}
+                        }
+                    }
+
+                    int colorValue = colors.getInt(0);
+                    Particle particle = this.engine.createParticle(ParticleTypes.FLASH, this.x, this.y, this.z, 0.0, 0.0, 0.0);
+                    if (particle != null) particle.setColor((float) FastColor.ARGB32.red(colorValue) / 255.0F, (float) FastColor.ARGB32.green(colorValue) / 255.0F, (float) FastColor.ARGB32.blue(colorValue) / 255.0F);
+                }
+                else if (sticker.type() == StickerType.BEDROCK) {
+                    for (ResourceLocation id : sticker.ids()) {
+                        SpawnSnowstormEntityParticlePacket packet = new SpawnSnowstormEntityParticlePacket(id, this.entityId, List.of("root"), null, null);
+                        SpawnSnowstormEntityParticleHandler.INSTANCE.handle(packet, Minecraft.getInstance());
                     }
                 }
-                else {
-                    CustomParticleFunction explosionParticle = EXPLOSION_MAP.get(explosion.id());
-                    if (explosionParticle != null) explosionParticle.accept(this.level, this.x, this.y, this.z, this.rot, this.engine, explosion, this.scale, this.scaleFactor);
+                else if (sticker.type() == StickerType.CUSTOM) {
+                    for (ResourceLocation id : sticker.ids()) {
+                        CustomParticleFunction function = CUSTOM_PARTICLE_MAP.get(id);
+                        if (function != null) function.create(this.level, this.x, this.y, this.z, this.entityId, this.engine, sticker, this.scale);
+                    }
                 }
-
-                int colorValue = colors.getInt(0);
-                Particle particle = this.engine.createParticle(ParticleTypes.FLASH, this.x, this.y, this.z, 0.0, 0.0, 0.0);
-                if (particle != null) particle.setColor((float) FastColor.ARGB32.red(colorValue) / 255.0F, (float) FastColor.ARGB32.green(colorValue) / 255.0F, (float) FastColor.ARGB32.blue(colorValue) / 255.0F);
+                SoundEvent sound = sticker.createSound();
+                if (sound != null) this.level.playLocalSound(this.x, this.y, this.z, sound, SoundSource.AMBIENT, 1.0F, 0.95F + this.random.nextFloat() * 0.1F, true);
             }
 
             if (++this.life > this.lifetime) this.remove();
