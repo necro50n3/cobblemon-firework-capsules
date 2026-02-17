@@ -1,21 +1,22 @@
 package com.necro.fireworkcapsules.common.recipes;
 
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
-import com.necro.fireworkcapsules.common.item.StickerItem;
+import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import com.necro.fireworkcapsules.common.stickers.Stickers;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.item.DyeItem;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class StickerRecipe extends CustomRecipe {
-    private static final Ingredient TRAIL_INGREDIENT = Ingredient.of(Items.DIAMOND);
-    private static final Ingredient TWINKLE_INGREDIENT = Ingredient.of(Items.GLOWSTONE_DUST);
+    private static final Ingredient CAPSULE_INGREDIENT = Ingredient.of(FireworkCapsuleItems.BALL_CAPSULE.value());
+    private static final Ingredient PAPER_INGREDIENT = Ingredient.of(Items.PAPER);
 
     public StickerRecipe(CraftingBookCategory craftingBookCategory) {
         super(craftingBookCategory);
@@ -23,63 +24,67 @@ public class StickerRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingInput recipeInput, Level level) {
-        boolean sticker = false;
-        boolean trail = false;
-        boolean twinkle = false;
-        int colors = 0;
+        int capsule = 0;
+        int paper = 0;
 
+        ItemStack capsuleItem = ItemStack.EMPTY;
         for (int i = 0; i < recipeInput.size(); i++) {
             ItemStack itemStack = recipeInput.getItem(i);
             if (itemStack.isEmpty()) continue;
-            else if (itemStack.getItem() instanceof StickerItem) {
-                if (sticker) return false;
-                else sticker = true;
+            else if (CAPSULE_INGREDIENT.test(itemStack)) {
+                if (capsule++ > 0) return false;
+                capsuleItem = itemStack;
             }
-            else if (TRAIL_INGREDIENT.test(itemStack)) {
-                if (trail) return false;
-                else trail = true;
+            else if (PAPER_INGREDIENT.test(itemStack)) {
+                if (paper++ > 0) return false;
             }
-            else if (TWINKLE_INGREDIENT.test(itemStack)) {
-                if (twinkle) return false;
-                else twinkle = true;
-            }
-            else if (itemStack.getItem() instanceof DyeItem) colors++;
             else return false;
         }
 
-        return sticker && (trail || twinkle || colors > 0);
+        Stickers stickers = capsuleItem.get(FireworkCapsuleComponents.STICKERS.value());
+        return capsule == 1 && paper == 1 && stickers != null && !stickers.explosions().isEmpty();
     }
 
     @Override
     public @NotNull ItemStack assemble(CraftingInput recipeInput, HolderLookup.Provider provider) {
-        ItemStack sticker = ItemStack.EMPTY;
-        IntList fadeColors = new IntArrayList();
-        boolean hasTrail = false;
-        boolean hasTwinkle = false;
+        ItemStack capsule = ItemStack.EMPTY;
 
         for (int i = 0; i < recipeInput.size(); i++) {
             ItemStack itemStack = recipeInput.getItem(i);
             if (itemStack.isEmpty()) continue;
-            else if (itemStack.getItem() instanceof StickerItem) {
-                sticker = itemStack;
-            }
-            else if (TRAIL_INGREDIENT.test(itemStack)) hasTrail = true;
-            else if (TWINKLE_INGREDIENT.test(itemStack)) hasTwinkle = true;
-            else if (itemStack.getItem() instanceof DyeItem dye) fadeColors.add(dye.getDyeColor().getFireworkColor());
+            else if (CAPSULE_INGREDIENT.test(itemStack)) capsule = itemStack;
         }
 
-        ItemStack stack = sticker.copy();
-        stack.setCount(1);
+        Stickers stickers = capsule.get(FireworkCapsuleComponents.STICKERS.value());
+        if (stickers == null || stickers.explosions().isEmpty()) return ItemStack.EMPTY;
 
-        StickerExplosion explosion = stack.get(FireworkCapsuleComponents.STICKER_EXPLOSION.value());
-        assert explosion != null;
-        fadeColors.addAll(explosion.fadeColors());
+        StickerExplosion stickerExplosion = stickers.explosions().getFirst();
+        ItemStack sticker = FireworkCapsuleItems.STICKER.value().getDefaultInstance();
+        sticker.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), stickerExplosion);
+        return sticker;
+    }
 
-        StickerExplosion newExplosion = new StickerExplosion(
-            explosion.id(), explosion.colors(), fadeColors, hasTrail || explosion.hasTrail(), hasTwinkle || explosion.hasTwinkle()
-        );
-        stack.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), newExplosion);
-        return stack;
+    @Override
+    public @NotNull NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
+        NonNullList<ItemStack> remaining = NonNullList.withSize(input.size(), ItemStack.EMPTY);
+        ItemStack capsule = ItemStack.EMPTY;
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack itemStack = input.getItem(i);
+            if (itemStack.isEmpty()) continue;
+            else if (CAPSULE_INGREDIENT.test(itemStack)) {
+                ItemStack copy = itemStack.copyWithCount(1);
+                remaining.set(i, copy);
+                capsule = copy;
+            }
+        }
+
+        Stickers stickers = capsule.get(FireworkCapsuleComponents.STICKERS.value());
+        if (stickers == null || stickers.explosions().isEmpty()) return remaining;
+
+        Stickers newStickers = new Stickers(new ArrayList<>(stickers.explosions().subList(1, stickers.explosions().size())));
+        capsule.set(FireworkCapsuleComponents.STICKERS.value(), newStickers);
+
+        return remaining;
     }
 
     @Override
