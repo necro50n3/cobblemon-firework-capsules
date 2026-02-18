@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "item": "cobblemon:electric_gem"
+        },
+        {
+            "item": "cobblemon:electric_gem"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "id": "fireworkcapsules:thunder_sticker",
+                "color": 16769024,
+                "sound": "cobblemon:move.thunder.target"
+            }
+        }
+    }
+}
