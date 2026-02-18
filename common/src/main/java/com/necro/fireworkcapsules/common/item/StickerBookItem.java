@@ -1,6 +1,7 @@
 package com.necro.fireworkcapsules.common.item;
 
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
+import com.necro.fireworkcapsules.common.tooltip.StickerBookTooltipProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,10 +12,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public abstract class StickerBookItem extends Item {
     public static final Component CONTAINER_TITLE = Component.translatable("container.fireworkcapsules.sticker_book");
@@ -40,6 +44,13 @@ public abstract class StickerBookItem extends Item {
             level.playLocalSound(player, SoundEvents.BOOK_PAGE_TURN, SoundSource.PLAYERS, 0.5f, 1.0f);
         }
         return InteractionResultHolder.success(itemStack);
+    }
+
+    @Override
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack itemStack) {
+        CompoundTag tag = itemStack.get(FireworkCapsuleComponents.STICKER_CONTAINER.value());
+        if (tag == null || !tag.contains("Items")) return Optional.empty();
+        return Optional.of(new StickerBookTooltipProvider(tag));
     }
 
     protected void openMenu(ServerPlayer player, byte b) {

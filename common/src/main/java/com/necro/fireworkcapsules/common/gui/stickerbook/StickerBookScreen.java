@@ -18,11 +18,13 @@ public class StickerBookScreen extends AbstractContainerScreen<StickerBookMenu> 
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
+    @Override
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
         super.render(guiGraphics, i, j, f);
         this.renderTooltip(guiGraphics, i, j);
     }
 
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j) {
         int k = (this.width - this.imageWidth) / 2;
         int l = (this.height - this.imageHeight) / 2;

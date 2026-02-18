@@ -7,7 +7,8 @@
         "PokemonMixin"
     ],
     "client": [
-        "ClientLevelMixin"
+        "ClientLevelMixin",
+        "GuiGraphicsMixin"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -7,6 +7,8 @@ import com.necro.fireworkcapsules.common.gui.FireworkCapsuleMenus;
 import com.necro.fireworkcapsules.common.gui.stickerbook.StickerBookScreen;
 import com.necro.fireworkcapsules.common.particles.FireworkCapsuleParticles;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
+import com.necro.fireworkcapsules.common.tooltip.StickerBookTooltip;
+import com.necro.fireworkcapsules.common.tooltip.StickerBookTooltipProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -17,6 +19,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -43,6 +46,11 @@ public class ModEvents {
             ModelResourceLocation key = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker"));
             BakedModel original = event.getModels().get(key);
             if (original != null) event.getModels().put(key, new StickerModel(original));
+        }
+
+        @SubscribeEvent
+        public static void onGatherTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
+            event.register(StickerBookTooltipProvider.class, data -> new StickerBookTooltip(data.tag()));
         }
     }
 
