@@ -1,6 +1,6 @@
 package com.necro.fireworkcapsules.fabric.mixins;
 
-import com.necro.fireworkcapsules.common.gui.CapsuleStationScreen;
+import com.necro.fireworkcapsules.common.gui.capsulestation.CapsuleStationScreen;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;

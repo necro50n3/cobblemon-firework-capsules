@@ -8,6 +8,7 @@ import com.necro.fireworkcapsules.common.stickers.Stickers;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -21,6 +22,7 @@ public class NeoForgeComponents {
     public static void register() {
         FireworkCapsuleComponents.STICKERS = (Holder<DataComponentType<Stickers>>) (Object) registerComponent("stickers", Stickers.CODEC);
         FireworkCapsuleComponents.STICKER_EXPLOSION = (Holder<DataComponentType<StickerExplosion>>) (Object) registerComponent("sticker_explosion", StickerExplosion.CODEC);
+        FireworkCapsuleComponents.STICKER_CONTAINER = (Holder<DataComponentType<CompoundTag>>) (Object) registerComponent("sticker_container", CompoundTag.CODEC);
     }
 
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> registerComponent(String name, Codec<T> codec) {

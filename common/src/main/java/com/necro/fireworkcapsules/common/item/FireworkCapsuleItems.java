@@ -6,8 +6,9 @@ import net.minecraft.world.item.Item;
 
 public class FireworkCapsuleItems {
     public static Holder<Item> BALL_CAPSULE;
-
+    public static Holder<Item> STICKER_BOOK;
     public static Holder<Item> STICKER;
+
     public static Holder<Item> BUG_STICKER;
     public static Holder<Item> DARK_STICKER;
     public static Holder<Item> DRAGON_STICKER;

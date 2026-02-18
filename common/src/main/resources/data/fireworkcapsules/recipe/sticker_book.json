@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:paper"
+    },
+    "@": {
+      "tag": "cobblemon:apricorns"
+    }
+  },
+  "pattern": [
+    "##",
+    "#@"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fireworkcapsules:sticker_book"
+  }
+}

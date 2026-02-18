@@ -2,7 +2,7 @@ package com.necro.fireworkcapsules.common.blocks;
 
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.mojang.serialization.MapCodec;
-import com.necro.fireworkcapsules.common.gui.CapsuleStationMenu;
+import com.necro.fireworkcapsules.common.gui.capsulestation.CapsuleStationMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

@@ -1,4 +1,4 @@
-package com.necro.fireworkcapsules.common.gui;
+package com.necro.fireworkcapsules.common.gui.capsulestation;
 
 import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
 import net.minecraft.world.Container;

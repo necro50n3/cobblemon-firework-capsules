@@ -1,6 +1,7 @@
-package com.necro.fireworkcapsules.common.gui;
+package com.necro.fireworkcapsules.common.gui.capsulestation;
 
 import com.necro.fireworkcapsules.common.blocks.FireworkCapsuleBlocks;
+import com.necro.fireworkcapsules.common.gui.FireworkCapsuleMenus;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -17,9 +18,7 @@ public class CapsuleStationMenu extends AbstractContainerMenu {
     private static final int INV_SLOT_END = 33;
     private static final int USE_ROW_SLOT_START = 33;
     private static final int USE_ROW_SLOT_END = 42;
-    private final CapsuleContainer capsuleSlots;
     private final ContainerLevelAccess access;
-    private final Player player;
 
     public CapsuleStationMenu(int i, Inventory inventory) {
         this(i, inventory, ContainerLevelAccess.NULL);
@@ -32,15 +31,10 @@ public class CapsuleStationMenu extends AbstractContainerMenu {
     public CapsuleStationMenu(int i, Inventory inventory, ContainerLevelAccess containerLevelAccess) {
         super(FireworkCapsuleMenus.CAPSULE_STATION_MENU.value(), i);
         this.access = containerLevelAccess;
-        this.player = inventory.player;
-        this.capsuleSlots = CapsuleContainer.create(this.player);
+        CapsuleContainer container = CapsuleContainer.create(inventory.player);
 
         for(int idx = 0; idx < 6; ++idx) {
-            this.addSlot(new CapsuleSlot(
-                this.capsuleSlots, idx,
-                42 + 55 * (idx % 3),
-                26 + 35 * (idx / 3)
-            ));
+            this.addSlot(new CapsuleSlot(container, idx, 42 + 55 * (idx % 3), 26 + 35 * (idx / 3)));
         }
 
         for(int y = 0; y < 3; ++y) {

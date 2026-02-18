@@ -1,7 +1,9 @@
 {
     "block.fireworkcapsules.capsule_station": "Capsule Station",
     "container.fireworkcapsules.capsule_station": "Capsule Station",
+    "container.fireworkcapsules.sticker_book": "Sticker Book",
     "item.fireworkcapsules.ball_capsule": "Ball Capsule",
+    "item.fireworkcapsules.sticker_book": "Sticker Book",
     "item.fireworkcapsules.sticker": "Blank Sticker",
     "item.fireworkcapsules.bug_sticker": "Bug Sticker",
     "item.fireworkcapsules.dark_sticker": "Dark Sticker",

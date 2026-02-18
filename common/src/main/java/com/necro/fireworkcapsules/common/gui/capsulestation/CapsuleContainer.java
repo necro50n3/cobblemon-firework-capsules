@@ -1,4 +1,4 @@
-package com.necro.fireworkcapsules.common.gui;
+package com.necro.fireworkcapsules.common.gui.capsulestation;
 
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.client.CobblemonClient;

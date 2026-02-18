@@ -26,8 +26,9 @@ public class NeoForgeItems {
 
     public static void register() {
         FireworkCapsuleItems.BALL_CAPSULE = ITEMS.register("ball_capsule", BallCapsuleItem::new);
-
+        FireworkCapsuleItems.STICKER_BOOK = ITEMS.register("sticker_book", StickerBookItemNeoForge::new);
         FireworkCapsuleItems.STICKER = ITEMS.register("sticker", () -> new StickerItem());
+
         FireworkCapsuleItems.BUG_STICKER = registerSticker("bug_sticker", ElementalStickers.BUG_STICKER);
         FireworkCapsuleItems.DARK_STICKER = registerSticker("dark_sticker", ElementalStickers.DARK_STICKER);
         FireworkCapsuleItems.DRAGON_STICKER = registerSticker("dragon_sticker", ElementalStickers.DRAGON_STICKER);
@@ -54,6 +55,7 @@ public class NeoForgeItems {
                 .displayItems((context, entries) -> {
                     entries.accept((ItemLike) FireworkCapsuleBlocks.CAPSULE_STATION);
                     entries.accept((ItemLike) FireworkCapsuleItems.BALL_CAPSULE);
+                    entries.accept((ItemLike) FireworkCapsuleItems.STICKER_BOOK);
 
                     context.holders().lookupOrThrow(StickerExplosion.STICKERS).listElements().forEach(reference -> {
                         StickerExplosion sticker = reference.value();

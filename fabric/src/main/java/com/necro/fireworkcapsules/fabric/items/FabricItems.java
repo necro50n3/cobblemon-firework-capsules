@@ -19,12 +19,22 @@ import net.minecraft.world.item.ItemStack;
 
 public class FabricItems {
     public static void register() {
-        FireworkCapsuleItems.BALL_CAPSULE = Registry.registerForHolder(BuiltInRegistries.ITEM,
+        FireworkCapsuleItems.BALL_CAPSULE = Registry.registerForHolder(
+            BuiltInRegistries.ITEM,
             ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "ball_capsule"),
             new BallCapsuleItem()
         );
+        FireworkCapsuleItems.STICKER_BOOK = Registry.registerForHolder(
+            BuiltInRegistries.ITEM,
+            ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker_book"),
+            new StickerBookItemFabric()
+        );
+        FireworkCapsuleItems.STICKER = Registry.registerForHolder(
+            BuiltInRegistries.ITEM,
+            ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker"),
+            new StickerItem()
+        );
 
-        FireworkCapsuleItems.STICKER = Registry.registerForHolder(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker"), new StickerItem());
         FireworkCapsuleItems.BUG_STICKER = registerSticker("bug_sticker", ElementalStickers.BUG_STICKER);
         FireworkCapsuleItems.DARK_STICKER = registerSticker("dark_sticker", ElementalStickers.DARK_STICKER);
         FireworkCapsuleItems.DRAGON_STICKER = registerSticker("dragon_sticker", ElementalStickers.DRAGON_STICKER);
@@ -51,6 +61,7 @@ public class FabricItems {
                 .displayItems((context, entries) -> {
                     entries.accept(FireworkCapsuleBlocks.CAPSULE_STATION.value());
                     entries.accept(FireworkCapsuleItems.BALL_CAPSULE.value());
+                    entries.accept(FireworkCapsuleItems.STICKER_BOOK.value());
 
                     context.holders().lookupOrThrow(StickerExplosion.STICKERS).listElements().forEach(reference -> {
                         StickerExplosion sticker = reference.value();

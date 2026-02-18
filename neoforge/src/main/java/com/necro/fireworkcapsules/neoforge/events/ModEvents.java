@@ -2,8 +2,9 @@ package com.necro.fireworkcapsules.neoforge.events;
 
 import com.necro.fireworkcapsules.common.FireworkCapsules;
 import com.necro.fireworkcapsules.common.client.StickerModel;
-import com.necro.fireworkcapsules.common.gui.CapsuleStationScreen;
+import com.necro.fireworkcapsules.common.gui.capsulestation.CapsuleStationScreen;
 import com.necro.fireworkcapsules.common.gui.FireworkCapsuleMenus;
+import com.necro.fireworkcapsules.common.gui.stickerbook.StickerBookScreen;
 import com.necro.fireworkcapsules.common.particles.FireworkCapsuleParticles;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
 import net.minecraft.client.Minecraft;
@@ -61,6 +62,7 @@ public class ModEvents {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(FireworkCapsuleMenus.CAPSULE_STATION_MENU.value(), CapsuleStationScreen::new);
+            event.register(FireworkCapsuleMenus.STICKER_BOOK_MENU.value(), StickerBookScreen::new);
         }
 
         @SubscribeEvent

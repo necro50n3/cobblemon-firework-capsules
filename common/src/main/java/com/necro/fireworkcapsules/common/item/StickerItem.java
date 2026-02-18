@@ -2,6 +2,7 @@ package com.necro.fireworkcapsules.common.item;
 
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +30,8 @@ public class StickerItem extends Item {
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
         StickerExplosion stickerExplosion = itemStack.get(FireworkCapsuleComponents.STICKER_EXPLOSION.value());
-        if (stickerExplosion == null || list == null) return;
-        stickerExplosion.addToTooltip(tooltipContext, list::add, tooltipFlag);
+        if (list == null) return;
+        if (stickerExplosion == null) list.add(Component.translatable("item.fireworkcapsules.sticker.id.sticker").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+        else stickerExplosion.addToTooltip(tooltipContext, list::add, tooltipFlag);
     }
 }
