@@ -5,7 +5,7 @@ import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
 public enum StickerType implements StringRepresentable {
-    FIREWORKS("fireworks"),
+    FIREWORK("firework"),
     BEDROCK("bedrock"),
     CUSTOM("custom");
 

@@ -17,9 +17,7 @@
         "id": "fireworkcapsules:sticker",
         "components": {
             "fireworkcapsules:sticker_explosion": {
-                "ids": [
-                    "fireworkcapsules:dark_sticker"
-                ],
+                "id": "fireworkcapsules:dark_sticker",
                 "color": 2236962
             }
         }

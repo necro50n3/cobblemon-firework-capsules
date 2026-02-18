@@ -1,7 +1,4 @@
 {
-    "ids": [
-        "fireworkcapsules:bug_sticker",
-        "fireworkcapsules:bug_sticker_web"
-    ],
+    "id": "fireworkcapsules:bug_sticker",
     "color": 7180843
 }

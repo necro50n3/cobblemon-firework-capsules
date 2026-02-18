@@ -3,11 +3,14 @@ package com.necro.fireworkcapsules.common.recipes;
 import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
 import com.necro.fireworkcapsules.common.item.FireworkCapsuleItems;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
+import com.necro.fireworkcapsules.common.stickers.StickerType;
 import com.necro.fireworkcapsules.common.stickers.Stickers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.FireworkExplosion;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -59,9 +62,20 @@ public class StickerRecipe extends CustomRecipe {
         if (stickers == null || stickers.explosions().isEmpty()) return ItemStack.EMPTY;
 
         StickerExplosion stickerExplosion = stickers.explosions().getFirst();
-        ItemStack sticker = FireworkCapsuleItems.STICKER.value().getDefaultInstance();
-        sticker.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), stickerExplosion);
-        return sticker;
+        if (stickerExplosion.type() == StickerType.FIREWORK) {
+            FireworkExplosion fireworkExplosion = stickerExplosion.toFirework();
+            if (fireworkExplosion != null) {
+                ItemStack firework = Items.FIREWORK_STAR.getDefaultInstance();
+                firework.set(DataComponents.FIREWORK_EXPLOSION, fireworkExplosion);
+                return firework;
+            }
+        }
+        else {
+            ItemStack sticker = FireworkCapsuleItems.STICKER.value().getDefaultInstance();
+            sticker.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), stickerExplosion);
+            return sticker;
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override

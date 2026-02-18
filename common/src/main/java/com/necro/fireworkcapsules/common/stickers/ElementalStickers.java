@@ -3,15 +3,9 @@ package com.necro.fireworkcapsules.common.stickers;
 import com.necro.fireworkcapsules.common.FireworkCapsules;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
-
 public class ElementalStickers {
     public static final StickerExplosion BUG_STICKER = new StickerExplosion(
-        List.of(
-            ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "bug_sticker"),
-            ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "bug_sticker_web")
-        ),
-        7180843, "", StickerType.BEDROCK
+        ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "bug_sticker"), 7180843, StickerType.BEDROCK
     );
 
     public static final StickerExplosion DARK_STICKER = new StickerExplosion(

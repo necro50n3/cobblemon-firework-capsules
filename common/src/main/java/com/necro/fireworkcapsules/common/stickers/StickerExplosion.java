@@ -23,19 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntList fadeColors, boolean hasTrail, boolean hasTwinkle, String sound, StickerType type) implements TooltipProvider {
+public record StickerExplosion(ResourceLocation id, IntList colors, IntList fadeColors, boolean hasTrail, boolean hasTwinkle, String sound, StickerType type) implements TooltipProvider {
     public static final ResourceKey<Registry<StickerExplosion>> STICKERS = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("sticker", "explosion"));
 
-    public StickerExplosion(ResourceLocation id, IntList colors, IntList fadeColors, boolean hasTrail, boolean hasTwinkle, String sound, StickerType type) {
-        this(List.of(id), colors, fadeColors, hasTrail, hasTwinkle, sound, type);
-    }
-
-    public StickerExplosion(List<ResourceLocation> ids, int color, String sound, StickerType type) {
-        this(ids, IntList.of(color), IntList.of(), false, false, sound, type);
+    public StickerExplosion(ResourceLocation id, int color, String sound, StickerType type) {
+        this(id, IntList.of(color), IntList.of(), false, false, sound, type);
     }
 
     public StickerExplosion(ResourceLocation id, int color, StickerType type) {
-        this(List.of(id), color, "", type);
+        this(id, IntList.of(color), IntList.of(), false, false, "", type);
     }
 
     public static StickerExplosion fromFireworks(FireworkExplosion explosion) {
@@ -46,7 +42,7 @@ public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntLi
             case FireworkExplosion.Shape.CREEPER -> ResourceLocation.withDefaultNamespace("creeper");
             case FireworkExplosion.Shape.BURST -> ResourceLocation.withDefaultNamespace("burst");
         };
-        return new StickerExplosion(id, explosion.colors(), explosion.fadeColors(), explosion.hasTrail(), explosion.hasTwinkle(), "", StickerType.FIREWORKS);
+        return new StickerExplosion(id, explosion.colors(), explosion.fadeColors(), explosion.hasTrail(), explosion.hasTwinkle(), "", StickerType.FIREWORK);
     }
 
     @Override
@@ -115,10 +111,6 @@ public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntLi
         return Component.translatable(String.format("item.%s.sticker.id.%s", this.id().getNamespace(), this.id().getPath()));
     }
 
-    public ResourceLocation id() {
-        return this.ids.getFirst();
-    }
-
     private int color() {
         return this.colors.getFirst();
     }
@@ -128,9 +120,23 @@ public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntLi
         return SoundEvent.createVariableRangeEvent(ResourceLocation.parse(this.sound));
     }
 
+    public FireworkExplosion toFirework() {
+        if (this.type() != StickerType.FIREWORK) return null;
+
+        FireworkExplosion.Shape shape = null;
+        if (this.id().equals(ResourceLocation.withDefaultNamespace("small_ball"))) shape = FireworkExplosion.Shape.SMALL_BALL;
+        else if (this.id().equals(ResourceLocation.withDefaultNamespace("large_ball"))) shape = FireworkExplosion.Shape.LARGE_BALL;
+        else if (this.id().equals(ResourceLocation.withDefaultNamespace("star"))) shape = FireworkExplosion.Shape.STAR;
+        else if (this.id().equals(ResourceLocation.withDefaultNamespace("creeper"))) shape = FireworkExplosion.Shape.CREEPER;
+        else if (this.id().equals(ResourceLocation.withDefaultNamespace("burst"))) shape = FireworkExplosion.Shape.BURST;
+        if (shape == null) return null;
+
+        return new FireworkExplosion(shape, this.colors(), this.fadeColors(), this.hasTrail(), this.hasTwinkle());
+    }
+
     @Override
     public @NotNull String toString() {
-        String string = "ids=" + this.ids().toString() + " colors=" + this.colors().toString();
+        String string = "id=" + this.id().toString() + " colors=" + this.colors().toString();
         if (!this.fadeColors().isEmpty()) string += " fadeColors=" + this.fadeColors();
         string += " hasTrail=" + this.hasTrail() + " hasTwinkle=" + this.hasTwinkle();
         if (!this.sound().isBlank()) string += " sound=" + this.sound();
@@ -138,7 +144,7 @@ public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntLi
     }
 
     public static final Codec<StickerExplosion> DIRECT_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-            ResourceLocation.CODEC.listOf().fieldOf("ids").forGetter(StickerExplosion::ids),
+            ResourceLocation.CODEC.fieldOf("id").forGetter(StickerExplosion::id),
             FireworkExplosion.COLOR_LIST_CODEC.fieldOf("colors").forGetter(StickerExplosion::colors),
             FireworkExplosion.COLOR_LIST_CODEC.fieldOf("fade_colors").orElse(IntList.of()).forGetter(StickerExplosion::fadeColors),
             Codec.BOOL.fieldOf("has_trail").orElse(false).forGetter(StickerExplosion::hasTrail),
@@ -149,30 +155,13 @@ public record StickerExplosion(List<ResourceLocation> ids, IntList colors, IntLi
     );
 
     public static final Codec<StickerExplosion> SIMPLE_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-            ResourceLocation.CODEC.listOf().fieldOf("ids").forGetter(StickerExplosion::ids),
+            ResourceLocation.CODEC.fieldOf("id").forGetter(StickerExplosion::id),
             Codec.INT.fieldOf("color").orElse(-1).forGetter(StickerExplosion::color),
             Codec.STRING.fieldOf("sound").orElse("").forGetter(StickerExplosion::sound),
             StickerType.CODEC.fieldOf("type").orElse(StickerType.BEDROCK).forGetter(StickerExplosion::type))
         .apply(instance, StickerExplosion::new)
     );
 
-    public static final Codec<StickerExplosion> TRUE_CODEC = Codec.either(DIRECT_CODEC, SIMPLE_CODEC)
+    public static final Codec<StickerExplosion> CODEC = Codec.either(DIRECT_CODEC, SIMPLE_CODEC)
         .xmap(either -> either.map(direct -> direct, simple -> simple), Either::left);
-
-    public static final Codec<StickerExplosion> FALLBACK_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-            ResourceLocation.CODEC.fieldOf("id").forGetter(StickerExplosion::id),
-            FireworkExplosion.COLOR_LIST_CODEC.fieldOf("colors").forGetter(StickerExplosion::colors),
-            FireworkExplosion.COLOR_LIST_CODEC.fieldOf("fade_colors").orElse(IntList.of()).forGetter(StickerExplosion::fadeColors),
-            Codec.BOOL.fieldOf("has_trail").orElse(false).forGetter(StickerExplosion::hasTrail),
-            Codec.BOOL.fieldOf("has_twinkle").orElse(false).forGetter(StickerExplosion::hasTwinkle),
-            Codec.STRING.fieldOf("sound").orElse("").forGetter(StickerExplosion::sound),
-            StickerType.CODEC.fieldOf("type").orElse(StickerType.BEDROCK).forGetter(StickerExplosion::type))
-        .apply(instance, (id, colors, fadeColors, hasTrail, hasTwinkle, sound, type) -> {
-            if (id.getNamespace().equals("minecraft")) type = StickerType.FIREWORKS;
-            return new StickerExplosion(id, colors, fadeColors, hasTrail, hasTwinkle, sound, type);
-        })
-    );
-
-    public static final Codec<StickerExplosion> CODEC = Codec.either(TRUE_CODEC, FALLBACK_CODEC)
-        .xmap(either -> either.map(direct -> direct, fallback -> fallback), Either::left);
 }

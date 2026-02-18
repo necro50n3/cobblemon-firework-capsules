@@ -17,10 +17,7 @@
         "id": "fireworkcapsules:sticker",
         "components": {
             "fireworkcapsules:sticker_explosion": {
-                "ids": [
-                    "fireworkcapsules:electric_sticker",
-                    "cobblemon:thunderbolt_target"
-                ],
+                "id": "fireworkcapsules:electric_sticker",
                 "color": 16769024
             }
         }

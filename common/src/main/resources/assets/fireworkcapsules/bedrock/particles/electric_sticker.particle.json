@@ -2,22 +2,16 @@
     "format_version": "1.10.0",
     "particle_effect": {
         "description": {
-            "identifier": "fireworkcapsules:bug_sticker",
+            "identifier": "fireworkcapsules:electric_sticker",
             "basic_render_parameters": {
                 "material": "particles_alpha",
-                "texture": "fireworkcapsules:textures/particles/bug_sticker"
+                "texture": "fireworkcapsules:textures/particles/electric_sticker"
             }
         },
         "events": {
-            "bug": {
+            "event": {
                 "particle_effect": {
-                    "effect": "fireworkcapsules:bug_sticker_bug",
-                    "type": "emitter"
-                }
-            },
-            "web": {
-                "particle_effect": {
-                    "effect": "fireworkcapsules:bug_sticker_web",
+                    "effect": "cobblemon:thunderbolt_target",
                     "type": "emitter"
                 }
             }
@@ -30,7 +24,7 @@
                 "active_time": 1
             },
             "minecraft:emitter_lifetime_events": {
-                "creation_event": ["bug", "web"]
+                "creation_event": "event"
             },
             "minecraft:emitter_shape_point": {},
             "minecraft:particle_lifetime_expression": {
