@@ -44,8 +44,9 @@ Stickers can be combined with a Ball Capsule along with other stickers and Firew
 Stickers rely on the `fireworkcapsules:sticker_explosion` data component to determine how to render the sticker effects.
 
 In order to create a custom sticker, you can refer to the [example resource/datapack](https://github.com/necro50n3/cobblemon-firework-capsules/tree/main/example/example_sticker).
+For more information, refer to the [wiki](https://github.com/necro50n3/cobblemon-firework-capsules/wiki).
 
-The simple codec allows for the following, where `id` is the only required field.:
+The simple codec allows for the following, where `id` is the only required field.
 ```
 {
     "id": "fireworkcapsules:thunder_sticker",
