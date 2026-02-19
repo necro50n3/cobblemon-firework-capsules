@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "item": "minecraft:water_bucket"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "id": "fireworkcapsules:hydro_cannon_sticker",
+                "color": 2209279
+            }
+        }
+    }
+}

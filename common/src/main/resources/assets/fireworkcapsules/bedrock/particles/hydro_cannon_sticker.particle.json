@@ -1,0 +1,63 @@
+{
+    "format_version": "1.10.0",
+    "particle_effect": {
+        "description": {
+            "identifier": "fireworkcapsules:hydro_cannon_sticker",
+            "basic_render_parameters": {
+                "material": "particles_alpha",
+                "texture": "minecraft:textures/particles/generic_5"
+            }
+        },
+        "components": {
+            "minecraft:emitter_rate_steady": {
+                "spawn_rate": 100,
+                "max_particles": 400
+            },
+            "minecraft:emitter_lifetime_once": {
+                "active_time": 3
+            },
+            "minecraft:emitter_shape_point": {
+                "offset": [
+                    "(q.entity_width + 1) * (v.particle_random_1 < 0.5 ? -0.3 : 0.3)",
+                    "q.entity_height * 0.85",
+                    "-q.entity_width / 4"
+                ],
+                "direction": [
+                    "(v.particle_random_1 < 0.5 ? 0.15 : -0.15) + 0.2 * (v.particle_random_2 - 0.5)",
+                    "0.05 + 0.2 * (v.particle_random_3 - 0.5)",
+                    "-1 - 0.2 * (v.particle_random_4 - 0.5)"
+                ]
+            },
+            "minecraft:particle_lifetime_expression": {
+                "max_lifetime": "math.random(0.8, 1.2)"
+            },
+            "minecraft:particle_initial_spin": {
+                "rotation": "(v.particle_random_2 + v.particle_random_3) / 2 * 360"
+            },
+            "minecraft:particle_initial_speed": 16,
+            "minecraft:particle_motion_dynamic": {
+                "linear_drag_coefficient": 2
+            },
+            "minecraft:particle_appearance_billboard": {
+                "size": ["0.4 - 0.2 * (v.particle_age / v.particle_lifetime)", "0.4 - 0.2 * (v.particle_age / v.particle_lifetime)"],
+                "facing_camera_mode": "rotate_xyz",
+                "uv": {
+                    "texture_width": 16,
+                    "texture_height": 16,
+                    "uv": [0, 0],
+                    "uv_size": [16, 16]
+                }
+            },
+            "minecraft:particle_appearance_tinting": {
+                "color": {
+                    "interpolant": "v.particle_age / v.particle_lifetime",
+                    "gradient": {
+                        "0.0": "#FF5DA5F9",
+                        "0.76": "#FF9DAEF3",
+                        "0.89": "#FFCDEEF9"
+                    }
+                }
+            }
+        }
+    }
+}
