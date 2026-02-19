@@ -27,12 +27,8 @@ Special thanks to **dogtorbloo** for the custom block model!
 
 ## Sticker Recipe  
 Stickers can be crafted using Paper + Gunpowder + an ingredient.  
-As of v1.0.0 there are 18 stickers, one for each type, which can be crafted using the type gems.  
+As of v2.0.0 there are 21 stickers, one for each type, which can be crafted using the type gems, and three unique stickers.  
 ![sticker recipe](https://i.imgur.com/iF51p8f.png)  
-
-## Modifying Stickers  
-Stickers can be modified with dyes, a Diamond or Glowstone Dust to modify its properties the same way as Firework Stars (note that most stickers have been designed without these properties in mind).  
-![modifying stickeres](https://i.imgur.com/1mDI16j.png)  
 
 ## Combining Stickers
 Stickers can be combined with a Ball Capsule along with other stickers and Firework Stars to create all kinds of effects.  
@@ -45,86 +41,30 @@ Stickers can be combined with a Ball Capsule along with other stickers and Firew
 
 <summary></summary>
 
-Firework Capsules uses a custom particle engine which expands on the existing Minecraft fireworks system, allowing for custom particle integration.  
-Refer to below for the steps required to add a custom sticker.
+Stickers rely on the `fireworkcapsules:sticker_explosion` data component to determine how to render the sticker effects.
 
-<details>
-<summary>StickerExplosion Class</summary>
+In order to create a custom sticker, you can refer to the [example resource/datapack](https://github.com/necro50n3/cobblemon-firework-capsules/tree/main/example/example_sticker).
 
-The StickerExplosion class requires five fields:
+The simple codec allows for the following, where `id` is the only required field.:
 ```
-ResourceLocation id;
-IntList colors;
-IntList fadeColors;
-boolean hasTrail;
-boolean hasTwinkle;
-```
-The id and colors are unmodifiable and must be set when registering.
-The other three parameters can optionally be set during initialization and/or by players during gameplay.
-</details>
-
-<details>
-<summary>Sticker Item Class</summary>
-
-The sticker item must be registered with a corresponding StickerExplosion.
-```
-new StickerItem(new StickerExplosion(...));
-```
-</details>
-
-<details>
-<summary>Custom Particle Function</summary>
-
-The custom particle function is a consumer that provides parameters which you can use to set up your custom particles.  
-The **scale** parameter can be used scale your radius and particle sizes, and is dependent on the size of the Pokemon.  
-The **scaleFactor** parameter is determined by the scale parameter and can be used to adjust the number of particles generated based on the Pokemon size.  
-```
-@FunctionalInterface
-public interface CustomParticleFunction {
-    void accept(ClientLevel clientLevel, double x, double y, double z, float rot, ParticleEngine particleEngine, StickerExplosion explosion, float scale, double scaleFactor);
-}
-```
-</details>
-
-<details>
-<summary>Sticker Registration Event</summary>
-
-Each StickerExplosion must also be registered on the Sticker Registration Event, which is run on the client side.
-
-<details>
-<summary>Fabric</summary>
-
-```
-public class ExampleClient implements ClientModInitializer {
-    @Override
-    public void onInitializeClient() {
-        StickerRegistryEvent.EVENT.register((event) -> {
-            event.register(StickerExplosion, CustomParticleFunction);
-        );
-    }
+{
+    "id": "fireworkcapsules:thunder_sticker",
+    "color": 16769024,
+    "sound": "cobblemon:move.thunder.target",
+    "type": "BEDROCK"
 }
 ```
 
-</details>
-
-<details>
-<summary>NeoForge</summary>
-
-This event is run on the **MOD** bus.
-
+The complex codec, used only for CUSTOM or FIREWORK sticker types allows for the following:
 ```
-
-@EventBusSubscriber(value = Dist.CLIENT, modid = Example.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
-public static class ClientEvents {
-    @SubscribeEvent
-    public static void registerStickers(StickerRegistryEvent event) {
-        event.register(StickerExplosion, CustomParticleFunction);
-    }
+{
+    "id": "fireworkcapsules:thunder_sticker",
+    "colors": [ 16769024 ],
+    "fadeColors": [],
+    "hasTrail": false,
+    "hasTwinkle": false,
+    "sound": "cobblemon:move.thunder.target",
+    "type": "BEDROCK"
 }
 ```
-
-</details>
-
-</details>
-
 </details>
