@@ -64,7 +64,7 @@ The complex codec, used only for CUSTOM or FIREWORK sticker types allows for the
     "hasTrail": false,
     "hasTwinkle": false,
     "sound": "cobblemon:move.thunder.target",
-    "type": "BEDROCK"
+    "type": "CUSTOM"
 }
 ```
 </details>
