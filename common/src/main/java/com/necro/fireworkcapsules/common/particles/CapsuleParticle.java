@@ -93,7 +93,7 @@ public class CapsuleParticle extends FireworkParticles {
                     if (particle != null) particle.setColor((float) FastColor.ARGB32.red(colorValue) / 255.0F, (float) FastColor.ARGB32.green(colorValue) / 255.0F, (float) FastColor.ARGB32.blue(colorValue) / 255.0F);
                 }
                 else if (sticker.type() == StickerType.BEDROCK) {
-                    SpawnSnowstormEntityParticlePacket packet = new SpawnSnowstormEntityParticlePacket(sticker.id(), this.entityId, List.of("target"), null, null);
+                    SpawnSnowstormEntityParticlePacket packet = new SpawnSnowstormEntityParticlePacket(sticker.id(), this.entityId, List.of("root"), null, null);
                     SpawnSnowstormEntityParticleHandler.INSTANCE.handle(packet, Minecraft.getInstance());
                 }
                 else if (sticker.type() == StickerType.CUSTOM) {
