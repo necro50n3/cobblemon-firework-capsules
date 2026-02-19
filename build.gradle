@@ -32,7 +32,10 @@ subprojects {
 
     repositories {
         maven { url = "https://maven.impactdev.net/repository/development/" }
-        maven { url = "https://thedarkcolour.github.io/KotlinForForge/"}
+        maven { url = "https://thedarkcolour.github.io/KotlinForForge/" }
+        maven { url = "https://maven.blamejared.com/" }
+        maven { url = "https://maven.shedaniel.me/" }
+        maven { url = "https://maven.terraformersmc.com/" }
     }
 
     dependencies {

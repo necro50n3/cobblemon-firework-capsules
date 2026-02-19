@@ -143,6 +143,12 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
         return string;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof StickerExplosion sticker)) return false;
+        return this.id().equals(sticker.id());
+    }
+
     public static final Codec<StickerExplosion> DIRECT_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             ResourceLocation.CODEC.fieldOf("id").forGetter(StickerExplosion::id),
             FireworkExplosion.COLOR_LIST_CODEC.fieldOf("colors").forGetter(StickerExplosion::colors),
