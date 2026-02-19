@@ -78,7 +78,7 @@ public class CapsuleStationBlock extends HorizontalDirectionalBlock {
         if (level.isClientSide) return InteractionResult.SUCCESS;
 
         player.openMenu(blockState.getMenuProvider(level, blockPos));
-        level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), CobblemonSounds.PC_ON, SoundSource.NEUTRAL, 0.5f, 1.0f);
+        level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), CobblemonSounds.PC_ON, SoundSource.BLOCKS, 0.5f, 1.0f);
         level.gameEvent(player, GameEvent.BLOCK_OPEN, blockPos);
         return InteractionResult.CONSUME;
     }

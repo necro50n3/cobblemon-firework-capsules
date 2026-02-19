@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "fireworkcapsules:fairy_sticker"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "id": "fireworkcapsules:fairy_sticker",
+                "color": 14056891
+            }
+        }
+    }
+}

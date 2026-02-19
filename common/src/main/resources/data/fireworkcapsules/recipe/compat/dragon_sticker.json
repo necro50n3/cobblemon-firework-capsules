@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "fireworkcapsules:dragon_sticker"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "id": "fireworkcapsules:dragon_sticker",
+                "color": 9327353
+            }
+        }
+    }
+}

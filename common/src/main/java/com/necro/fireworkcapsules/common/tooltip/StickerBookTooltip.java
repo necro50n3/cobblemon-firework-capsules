@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -18,6 +17,7 @@ import java.util.List;
 
 public class StickerBookTooltip implements ClientTooltipComponent {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "textures/gui/tooltip/sticker_book_slot.png");
+    private static final int ROWS = 3;
     private final List<ItemStack> items;
 
     public StickerBookTooltip(CompoundTag tag) {
@@ -26,8 +26,9 @@ public class StickerBookTooltip implements ClientTooltipComponent {
 
         RegistryAccess registryAccess = Minecraft.getInstance().player.registryAccess();
         ListTag list = tag.getList("Items", 10);
-        for (Tag t : list) {
-            CompoundTag data = (CompoundTag) t;
+
+        for (int i = 0; i < this.inventorySize(); i++) {
+            CompoundTag data = list.getCompound(i);
             ItemStack item = ItemStack.parse(registryAccess, data).orElse(ItemStack.EMPTY);
             if (item.isEmpty()) continue;
             item.setCount(data.getInt("Count"));
@@ -54,7 +55,7 @@ public class StickerBookTooltip implements ClientTooltipComponent {
     }
 
     private int inventorySize() {
-        return Math.min(this.items.size(), 27);
+        return Math.min(this.items.size(), ROWS * 9);
     }
 
     @Override
