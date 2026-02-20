@@ -24,7 +24,7 @@ public class FireworkCapsulesFabric implements ModInitializer {
         FabricParticles.register();
         FabricRecipes.register();
 
-        DynamicRegistries.registerSynced(StickerExplosion.STICKERS, StickerExplosion.SIMPLE_CODEC, StickerExplosion.SIMPLE_CODEC);
+        DynamicRegistries.registerSynced(StickerExplosion.STICKERS, StickerExplosion.CODEC, StickerExplosion.CODEC);
     }
 
 }

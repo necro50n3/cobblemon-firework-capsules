@@ -24,7 +24,7 @@ public class StickerItem extends Item {
     public @NotNull Component getName(ItemStack itemStack) {
         StickerExplosion sticker = itemStack.get(FireworkCapsuleComponents.STICKER_EXPLOSION.value());
         if (sticker == null) return super.getName(itemStack);
-        return Component.translatable("item.fireworkcapsules." + sticker.id().getPath());
+        return Component.translatable(String.format("item.%s.%s", sticker.id().getNamespace(), sticker.id().getPath()));
     }
 
     @Override

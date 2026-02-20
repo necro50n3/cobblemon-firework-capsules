@@ -75,7 +75,7 @@ public class ModEvents {
 
         @SubscribeEvent
         public static void registerDatapack(DataPackRegistryEvent.NewRegistry event) {
-            event.dataPackRegistry(StickerExplosion.STICKERS, StickerExplosion.SIMPLE_CODEC, StickerExplosion.SIMPLE_CODEC);
+            event.dataPackRegistry(StickerExplosion.STICKERS, StickerExplosion.CODEC, StickerExplosion.CODEC);
         }
     }
 }
