@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -148,6 +149,28 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
     public boolean equals(Object other) {
         if (!(other instanceof StickerExplosion sticker)) return false;
         return this.id().equals(sticker.id());
+    }
+
+    public CompoundTag save(CompoundTag tag) {
+        tag.putString("id", this.id().toString());
+        tag.putIntArray("colors", this.colors());
+        tag.putIntArray("fade_colors", this.fadeColors());
+        tag.putBoolean("has_trail", this.hasTrail());
+        tag.putBoolean("has_twinkle", this.hasTwinkle());
+        tag.putString("sound", this.sound());
+        tag.putString("type", this.type().name());
+        return tag;
+    }
+
+    public static StickerExplosion load(CompoundTag tag) {
+        ResourceLocation id = ResourceLocation.parse(tag.getString("id"));
+        IntList colors = IntList.of(tag.getIntArray("colors"));
+        IntList fadeColors = IntList.of(tag.getIntArray("fade_colors"));
+        boolean hasTrail = tag.getBoolean("has_trail");
+        boolean hasTwinkle = tag.getBoolean("has_twinkle");
+        String sound = tag.getString("sound");
+        StickerType type = StickerType.fromString(tag.getString("type"));
+        return new StickerExplosion(id, colors, fadeColors, hasTrail, hasTwinkle, sound, type);
     }
 
     public static final Codec<StickerExplosion> DIRECT_CODEC = RecordCodecBuilder.create((instance) -> instance.group(

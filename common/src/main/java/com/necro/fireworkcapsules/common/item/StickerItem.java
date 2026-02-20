@@ -4,20 +4,30 @@ import com.necro.fireworkcapsules.common.components.FireworkCapsuleComponents;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class StickerItem extends Item {
-    public StickerItem(StickerExplosion explosion) {
-        super(new Item.Properties().component(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), explosion));
+public class StickerItem extends BlockItem {
+    public StickerItem(Block block, StickerExplosion explosion) {
+        super(block, new Item.Properties().component(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), explosion));
     }
 
-    public StickerItem() {
-        super(new Item.Properties());
+    public StickerItem(Block block) {
+        super(block, new Item.Properties());
+    }
+
+    @Override
+    public @NotNull InteractionResult place(BlockPlaceContext blockPlaceContext) {
+        if (!blockPlaceContext.getItemInHand().has(FireworkCapsuleComponents.STICKER_EXPLOSION.value())) return InteractionResult.FAIL;
+        return super.place(blockPlaceContext);
     }
 
     @Override

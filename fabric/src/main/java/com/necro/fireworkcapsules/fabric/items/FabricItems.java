@@ -32,7 +32,7 @@ public class FabricItems {
         FireworkCapsuleItems.STICKER = Registry.registerForHolder(
             BuiltInRegistries.ITEM,
             ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, "sticker"),
-            new StickerItem()
+            new StickerItem(FireworkCapsuleBlocks.STICKER.value())
         );
 
         FireworkCapsuleItems.BUG_STICKER = registerSticker("bug_sticker", ElementalStickers.BUG_STICKER);
@@ -76,7 +76,7 @@ public class FabricItems {
     private static Holder<Item> registerSticker(String name, StickerExplosion explosion) {
         return Registry.registerForHolder(BuiltInRegistries.ITEM,
             ResourceLocation.fromNamespaceAndPath(FireworkCapsules.MOD_ID, name),
-            new StickerItem(explosion)
+            new StickerItem(FireworkCapsuleBlocks.STICKER.value(), explosion)
         );
     }
 }

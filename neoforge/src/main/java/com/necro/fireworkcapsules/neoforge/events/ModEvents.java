@@ -1,6 +1,8 @@
 package com.necro.fireworkcapsules.neoforge.events;
 
 import com.necro.fireworkcapsules.common.FireworkCapsules;
+import com.necro.fireworkcapsules.common.blocks.FireworkCapsuleBlocks;
+import com.necro.fireworkcapsules.common.client.StickerBlockRenderer;
 import com.necro.fireworkcapsules.common.client.StickerModel;
 import com.necro.fireworkcapsules.common.gui.capsulestation.CapsuleStationScreen;
 import com.necro.fireworkcapsules.common.gui.FireworkCapsuleMenus;
@@ -18,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -51,6 +54,11 @@ public class ModEvents {
         @SubscribeEvent
         public static void onGatherTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
             event.register(StickerBookTooltipProvider.class, data -> new StickerBookTooltip(data.tag()));
+        }
+
+        @SubscribeEvent
+        public static void registerEntityRenderer(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(FireworkCapsuleBlocks.STICKER_ENTITY.value(), StickerBlockRenderer::new);
         }
     }
 

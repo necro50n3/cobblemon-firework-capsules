@@ -19,6 +19,7 @@ public class FireworkCapsulesNeoForge {
 
         NeoForgeBlocks.register();
         NeoForgeBlocks.BLOCKS.register(modBus);
+        NeoForgeBlocks.BLOCK_ENTITIES.register(modBus);
         NeoForgeComponents.register();
         NeoForgeComponents.DATA_COMPONENT_TYPES.register(modBus);
         NeoForgeEntities.register();

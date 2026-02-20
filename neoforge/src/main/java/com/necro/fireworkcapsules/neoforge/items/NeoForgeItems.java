@@ -27,7 +27,7 @@ public class NeoForgeItems {
     public static void register() {
         FireworkCapsuleItems.BALL_CAPSULE = ITEMS.register("ball_capsule", BallCapsuleItem::new);
         FireworkCapsuleItems.STICKER_BOOK = ITEMS.register("sticker_book", StickerBookItemNeoForge::new);
-        FireworkCapsuleItems.STICKER = ITEMS.register("sticker", () -> new StickerItem());
+        FireworkCapsuleItems.STICKER = ITEMS.register("sticker", () -> new StickerItem(FireworkCapsuleBlocks.STICKER.value()));
 
         FireworkCapsuleItems.BUG_STICKER = registerSticker("bug_sticker", ElementalStickers.BUG_STICKER);
         FireworkCapsuleItems.DARK_STICKER = registerSticker("dark_sticker", ElementalStickers.DARK_STICKER);
@@ -68,7 +68,7 @@ public class NeoForgeItems {
     }
 
     private static Holder<Item> registerSticker(String name, StickerExplosion explosion) {
-        return ITEMS.register(name, () -> new StickerItem(explosion));
+        return ITEMS.register(name, () -> new StickerItem(FireworkCapsuleBlocks.STICKER.value(), explosion));
     }
 
     public static void registerBlockItem(String name, DeferredBlock<?> block) {

@@ -1,4 +1,4 @@
-package com.necro.fireworkcapsules.common.blocks;
+package com.necro.fireworkcapsules.common.blocks.block;
 
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.mojang.serialization.MapCodec;
