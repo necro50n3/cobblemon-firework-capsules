@@ -140,6 +140,7 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
         if (!this.fadeColors().isEmpty()) string += " fadeColors=" + this.fadeColors();
         string += " hasTrail=" + this.hasTrail() + " hasTwinkle=" + this.hasTwinkle();
         if (!this.sound().isBlank()) string += " sound=" + this.sound();
+        string += " type=" + this.type();
         return string;
     }
 
@@ -157,7 +158,14 @@ public record StickerExplosion(ResourceLocation id, IntList colors, IntList fade
             Codec.BOOL.fieldOf("has_twinkle").orElse(false).forGetter(StickerExplosion::hasTwinkle),
             Codec.STRING.fieldOf("sound").orElse("").forGetter(StickerExplosion::sound),
             StickerType.CODEC.fieldOf("type").orElse(StickerType.BEDROCK).forGetter(StickerExplosion::type))
-        .apply(instance, StickerExplosion::new)
+        .apply(instance, (id, colors, fadeColors, hasTrail, hasTwinkle, sound, type) -> {
+            StickerExplosion sticker = new StickerExplosion(id, colors, fadeColors, hasTrail, hasTwinkle, sound, type);
+            if (type != StickerType.BEDROCK) return sticker;
+            StickerExplosion test = new StickerExplosion(id, colors, fadeColors, hasTrail, hasTwinkle, sound, StickerType.FIREWORK);
+            FireworkExplosion firework = test.toFirework();
+            if (firework == null) return sticker;
+            else return test;
+        })
     );
 
     public static final Codec<StickerExplosion> SIMPLE_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
