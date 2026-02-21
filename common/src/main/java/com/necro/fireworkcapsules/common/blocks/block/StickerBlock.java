@@ -10,7 +10,6 @@ import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
 import com.necro.fireworkcapsules.common.util.ShapeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,9 +48,10 @@ import java.util.List;
 public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     private static final MapCodec<StickerBlock> CODEC = simpleCodec(StickerBlock::new);
     public static final IntegerProperty STACK = IntegerProperty.create("stack", 1, 8);
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final DirectionProperty HORIZONTAL = DirectionProperty.create("horizontal", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+    public static final DirectionProperty VERTICAL = DirectionProperty.create("vertical", Direction.UP, Direction.DOWN, Direction.NORTH);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final VoxelShape[] SHAPE = new VoxelShape[8];
+    private static final VoxelShape SHAPE = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
 
     public StickerBlock(Properties properties) {
         super(properties
@@ -61,7 +61,7 @@ public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBl
             .noOcclusion()
             .noCollission()
         );
-        this.registerDefaultState(this.defaultBlockState().setValue(STACK, 1).setValue(FACING, Direction.UP).setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(STACK, 1).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -79,14 +79,31 @@ public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(STACK, FACING, WATERLOGGED);
+        builder.add(STACK, HORIZONTAL, VERTICAL, WATERLOGGED);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext blockPlaceContext) {
         FluidState fluidState = blockPlaceContext.getLevel().getFluidState(blockPlaceContext.getClickedPos());
         boolean isWater = fluidState.getType() == Fluids.WATER;
-        return this.defaultBlockState().setValue(FACING, blockPlaceContext.getClickedFace()).setValue(WATERLOGGED, isWater);
+        Direction clickedFace = blockPlaceContext.getClickedFace();
+        Direction vertical = Direction.NORTH;
+        if (clickedFace == Direction.UP || clickedFace == Direction.DOWN) vertical = clickedFace;
+
+        Direction[] directions = blockPlaceContext.getNearestLookingDirections();
+        for(Direction direction : directions) {
+            if (direction.getAxis().isHorizontal()) {
+                BlockState blockState = this.defaultBlockState()
+                    .setValue(HORIZONTAL, direction.getOpposite())
+                    .setValue(VERTICAL, vertical)
+                    .setValue(WATERLOGGED, isWater);
+                if (blockState.canSurvive(blockPlaceContext.getLevel(), blockPlaceContext.getClickedPos())) {
+                    return blockState;
+                }
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -104,17 +121,25 @@ public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     @Override
     protected @NotNull BlockState updateShape(BlockState blockState, Direction direction, BlockState blockState2, LevelAccessor level, BlockPos blockPos, BlockPos blockPos2) {
-        if (direction.getOpposite() == blockState.getValue(FACING) && !blockState.canSurvive(level, blockPos)) return Blocks.AIR.defaultBlockState();
+        if (direction.getOpposite() == getDirection(blockState) && !blockState.canSurvive(level, blockPos)) return Blocks.AIR.defaultBlockState();
         if (blockState.getValue(WATERLOGGED)) level.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         return super.updateShape(blockState, direction, blockState2, level, blockPos, blockPos2);
     }
 
     @Override
     protected boolean canSurvive(BlockState blockState, LevelReader level, BlockPos blockPos) {
-        Direction direction = blockState.getValue(FACING);
+        Direction direction = getDirection(blockState);
         BlockPos nextPos = blockPos.relative(direction.getOpposite());
         BlockState nextState = level.getBlockState(nextPos);
         return nextState.isFaceSturdy(level, nextPos, direction);
+    }
+
+    public static Direction getDirection(BlockState blockState) {
+        Direction horizontal = blockState.getValue(HORIZONTAL);
+        Direction vertical = blockState.getValue(VERTICAL);
+
+        if (vertical.getAxis().isVertical()) return vertical;
+        return horizontal;
     }
 
     @Override
@@ -163,23 +188,20 @@ public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     @Override
     protected @NotNull VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos blockPos, CollisionContext context) {
-        int stack = blockState.getValue(STACK);
-        Direction facing = blockState.getValue(FACING);
-        VoxelShape shape = SHAPE[Mth.clamp(stack - 1, 0, 7)];
-        return switch (facing) {
-            case UP, DOWN -> ShapeUtils.rotateVertical(facing, shape);
-            case NORTH, EAST, SOUTH, WEST -> VectorShapeExtensionsKt.rotateShape(Direction.NORTH, facing, shape);
-        };
-    }
+        Direction horizontal = blockState.getValue(HORIZONTAL);
+        Direction vertical = blockState.getValue(VERTICAL);
+        VoxelShape shape = SHAPE;
 
-    static {
-        SHAPE[0] = Shapes.box(0.25, 0.25, 0.9375, 0.75, 0.75, 1.0);
-        SHAPE[1] = Shapes.box(0.25, 0.0, 0.9375, 1.0, 0.75, 1.0);
-        SHAPE[2] = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
-        SHAPE[3] = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
-        SHAPE[4] = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
-        SHAPE[5] = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
-        SHAPE[6] = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
-        SHAPE[7] = Shapes.box(0.0, 0.0, 0.9375, 1.0, 1.0, 1.0);
+        shape = switch (vertical) {
+            case UP, DOWN -> ShapeUtils.rotateVertical(vertical, shape);
+            default -> shape;
+        };
+
+        shape = switch (horizontal) {
+            case NORTH, EAST, SOUTH, WEST -> VectorShapeExtensionsKt.rotateShape(Direction.NORTH, horizontal, shape);
+            default -> shape;
+        };
+
+        return shape;
     }
 }
