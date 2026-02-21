@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "minecraft:paper"
+        },
+        {
+            "item": "minecraft:gunpowder"
+        },
+        {
+            "tag": "minecraft:saplings"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "fireworkcapsules:sticker",
+        "components": {
+            "fireworkcapsules:sticker_explosion": {
+                "id": "fireworkcapsules:yggdrasil_sticker",
+                "color": 51533
+            }
+        }
+    }
+}
