@@ -1,5 +1,8 @@
 package com.necro.fireworkcapsules.common.util;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+
 public class RendererUtils {
     public static String shortenCount(long count) {
         if (count < 1_000) return Long.toString(count);
@@ -17,5 +20,13 @@ public class RendererUtils {
             }
         }
         return Long.toString(count);
+    }
+
+    public static int getRandomVariant(BlockPos blockPos, Direction direction) {
+        int variantCount = 3;
+        long seed = blockPos.asLong() ^ direction.hashCode();
+        seed ^= 25214903917L;
+        int hash = Long.hashCode(seed);
+        return Math.floorMod(hash, variantCount);
     }
 }

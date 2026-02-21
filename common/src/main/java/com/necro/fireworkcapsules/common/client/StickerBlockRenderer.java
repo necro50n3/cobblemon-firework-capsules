@@ -7,12 +7,12 @@ import com.necro.fireworkcapsules.common.FireworkCapsules;
 import com.necro.fireworkcapsules.common.blocks.block.StickerBlock;
 import com.necro.fireworkcapsules.common.blocks.entity.StickerBlockEntity;
 import com.necro.fireworkcapsules.common.stickers.StickerExplosion;
+import com.necro.fireworkcapsules.common.util.RendererUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,7 +30,7 @@ public class StickerBlockRenderer implements BlockEntityRenderer<StickerBlockEnt
         BlockState blockState = blockEntity.getBlockState();
         Direction horizontal = blockState.getValue(StickerBlock.HORIZONTAL);
         Direction vertical = blockState.getValue(StickerBlock.VERTICAL);
-        int variant = Math.floorMod(BlockPos.offset(blockEntity.getBlockPos().asLong(), StickerBlock.getDirection(blockState)), 3);
+        int variant = RendererUtils.getRandomVariant(blockEntity.getBlockPos(), StickerBlock.getDirection(blockState));
         int size = Math.min(blockEntity.getStickers().size(), 8);
         for (int i = 0; i < size; i++) {
             Coords coords = COORDS[variant][i];
