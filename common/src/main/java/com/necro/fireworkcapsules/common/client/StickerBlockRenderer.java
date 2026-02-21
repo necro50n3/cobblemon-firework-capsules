@@ -80,14 +80,14 @@ public class StickerBlockRenderer implements BlockEntityRenderer<StickerBlockEnt
     }
 
     static {
-        COORDS[0][0] = new Coords(0.5, 0.5, 0F);
-        COORDS[0][1] = new Coords(0.25, 0.21875, -10F);
-        COORDS[0][2] = new Coords(0.90625, 0.84375, -5F);
-        COORDS[0][3] = new Coords(0.21875, 0.9375, 0F);
-        COORDS[0][4] = new Coords(0.6875, 0.15625, 15F);
-        COORDS[0][5] = new Coords(0.84375, 0.4375, 5F);
-        COORDS[0][6] = new Coords(0.53125, 0.8125, -10F);
-        COORDS[0][7] = new Coords(0.125, 0.5625, 10F);
+        COORDS[0][0] = new Coords(16, 16, 0F);
+        COORDS[0][1] = new Coords(8, 7, -10F);
+        COORDS[0][2] = new Coords(29, 27, -5F);
+        COORDS[0][3] = new Coords(7, 30, 0F);
+        COORDS[0][4] = new Coords(22, 5, 15F);
+        COORDS[0][5] = new Coords(27, 14, 5F);
+        COORDS[0][6] = new Coords(17, 26, -10F);
+        COORDS[0][7] = new Coords(4, 18, 10F);
 
         COORDS[1][0] = new Coords(16, 16, 0F);
         COORDS[1][1] = new Coords(6, 23, -15F);
