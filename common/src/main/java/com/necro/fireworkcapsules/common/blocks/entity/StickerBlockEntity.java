@@ -12,6 +12,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,12 +32,11 @@ public class StickerBlockEntity extends BlockEntity {
 
     public boolean addSticker(Level level, BlockPos blockPos, BlockState blockState, StickerExplosion sticker) {
         if (sticker == null || level.isClientSide()) return false;
-        int stackSize = blockState.getValue(StickerBlock.STACK);
-        if (stackSize >= 8) return false;
+        if (this.stickers.size() >= 8) return false;
         this.stickers.add(sticker);
         this.setChanged();
-        if (!level.isClientSide()) level.playSound(null, blockPos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 0.8F, 1.0F);
-        level.setBlock(blockPos, blockState.setValue(StickerBlock.STACK, stackSize + 1), 3);
+        if (!level.isClientSide()) level.playSound(null, blockPos, SoundEvents.PINK_PETALS_PLACE, SoundSource.BLOCKS, 0.8F, 1.0F);
+        level.setBlock(blockPos, blockState.setValue(StickerBlock.STACK, Mth.clamp(this.stickers.size(), 1, 8)), 3);
         return true;
     }
 

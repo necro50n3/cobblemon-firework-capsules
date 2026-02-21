@@ -55,11 +55,12 @@ public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBl
 
     public StickerBlock(Properties properties) {
         super(properties
-            .sound(SoundType.WOOD)
+            .sound(SoundType.PINK_PETALS)
             .mapColor(MapColor.NONE)
             .pushReaction(PushReaction.DESTROY)
             .noOcclusion()
             .noCollission()
+            .instabreak()
         );
         this.registerDefaultState(this.defaultBlockState().setValue(STACK, 1).setValue(WATERLOGGED, false));
     }
