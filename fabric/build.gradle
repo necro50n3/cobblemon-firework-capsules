@@ -35,10 +35,6 @@ repositories {
         }
     }
     maven { url "https://api.modrinth.com/maven" }
-    maven {
-        name "Terraformers"
-        url "https://maven.terraformersmc.com/"
-    }
 }
 
 dependencies {
