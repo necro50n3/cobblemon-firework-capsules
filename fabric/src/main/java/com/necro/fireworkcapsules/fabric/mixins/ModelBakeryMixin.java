@@ -37,7 +37,7 @@ public abstract class ModelBakeryMixin {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/ModelBakery;loadItemModelAndDependencies(Lnet/minecraft/resources/ResourceLocation;)V"))
     private void initInject(BlockColors blockColors, ProfilerFiller profilerFiller, Map<ResourceLocation, BlockModel> map, Map<ResourceLocation, List<BlockStateModelLoader.LoadedJson>> map2, CallbackInfo ci){
         Set<ResourceLocation> models = Minecraft.getInstance().getResourceManager()
-            .listResources("models", model -> FireworkCapsules.MOD_ID.equals(model.getNamespace()) && model.getPath().contains("/stickers/") && model.getPath().endsWith(".json"))
+            .listResources("models/item/stickers", model -> FireworkCapsules.MOD_ID.equals(model.getNamespace()) && model.getPath().endsWith(".json"))
             .keySet();
 
         models.forEach(model -> {

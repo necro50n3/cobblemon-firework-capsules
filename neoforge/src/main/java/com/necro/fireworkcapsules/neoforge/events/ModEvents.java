@@ -35,7 +35,7 @@ public class ModEvents {
         @SubscribeEvent
         public static void registerStickerBakedModel(ModelEvent.RegisterAdditional event) {
             Set<ResourceLocation> models = Minecraft.getInstance().getResourceManager()
-                .listResources("models", model -> FireworkCapsules.MOD_ID.equals(model.getNamespace()) && model.getPath().contains("/stickers/") && model.getPath().endsWith(".json"))
+                .listResources("models/item/stickers", model -> FireworkCapsules.MOD_ID.equals(model.getNamespace()) && model.getPath().endsWith(".json"))
                 .keySet();
 
             models.forEach(model -> {

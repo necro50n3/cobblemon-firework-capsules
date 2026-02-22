@@ -35,12 +35,17 @@ repositories {
         }
     }
     maven { url "https://api.modrinth.com/maven" }
+    maven {
+        name "Terraformers"
+        url "https://maven.terraformersmc.com/"
+    }
 }
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
     modImplementation "net.fabricmc:fabric-language-kotlin:$rootProject.fabric_kotlin"
+    modImplementation "com.terraformersmc:modmenu:11.0.3"
     modImplementation "com.cobblemon:fabric:$rootProject.cobblemon_version"
 
     modCompileOnly("mezz.jei:jei-1.21.1-fabric-api:19.27.0.340")
