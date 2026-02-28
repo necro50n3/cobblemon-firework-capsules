@@ -34,6 +34,7 @@ public class ModEvents {
     public static class ClientEvents {
         @SubscribeEvent
         public static void registerStickerBakedModel(ModelEvent.RegisterAdditional event) {
+            FireworkCapsules.LOGGER.info("Loading custom sticker models");
             Set<ResourceLocation> models = Minecraft.getInstance().getResourceManager()
                 .listResources("models/item/stickers", model -> FireworkCapsules.MOD_ID.equals(model.getNamespace()) && model.getPath().endsWith(".json"))
                 .keySet();
@@ -42,6 +43,7 @@ public class ModEvents {
                 String id = model.toString().replace("models/", "").replace(".json", "");
                 event.register(ModelResourceLocation.standalone(ResourceLocation.parse(id)));
             });
+            FireworkCapsules.LOGGER.info("Loaded {} sticker models", models.size());
         }
 
         @SubscribeEvent

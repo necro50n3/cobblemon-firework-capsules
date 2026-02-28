@@ -13,6 +13,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -34,8 +35,13 @@ public abstract class ModelBakeryMixin {
     @Shadow
     abstract UnbakedModel getModel(ResourceLocation resourceLocation);
 
+    @Unique
+    private static boolean fc_HAS_LOADED = false;
+
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/ModelBakery;loadItemModelAndDependencies(Lnet/minecraft/resources/ResourceLocation;)V"))
     private void initInject(BlockColors blockColors, ProfilerFiller profilerFiller, Map<ResourceLocation, BlockModel> map, Map<ResourceLocation, List<BlockStateModelLoader.LoadedJson>> map2, CallbackInfo ci){
+        if (fc_HAS_LOADED) return;
+        FireworkCapsules.LOGGER.info("Loading custom sticker models");
         Set<ResourceLocation> models = Minecraft.getInstance().getResourceManager()
             .listResources("models/item/stickers", model -> FireworkCapsules.MOD_ID.equals(model.getNamespace()) && model.getPath().endsWith(".json"))
             .keySet();
@@ -47,5 +53,7 @@ public abstract class ModelBakeryMixin {
             unbakedCache.put(resourceLocation, unbakedmodel);
             topLevelModels.put(new ModelResourceLocation(resourceLocation, "standalone"), unbakedmodel);
         });
+        FireworkCapsules.LOGGER.info("Loaded {} sticker models", models.size());
+        fc_HAS_LOADED = true;
     }
 }
