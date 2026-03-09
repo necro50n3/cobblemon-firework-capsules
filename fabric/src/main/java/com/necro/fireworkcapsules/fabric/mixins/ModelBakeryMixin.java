@@ -1,6 +1,7 @@
 package com.necro.fireworkcapsules.fabric.mixins;
 
 import com.necro.fireworkcapsules.common.FireworkCapsules;
+import com.necro.fireworkcapsules.fabric.util.ILoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -23,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Mixin(ModelBakery.class)
-public abstract class ModelBakeryMixin {
+public abstract class ModelBakeryMixin implements ILoader {
     @Final
     @Shadow
     private Map<ResourceLocation, UnbakedModel> unbakedCache;
@@ -37,6 +38,11 @@ public abstract class ModelBakeryMixin {
 
     @Unique
     private static boolean fc_HAS_LOADED = false;
+
+    @Override
+    public void fc_finishedLoading() {
+        fc_HAS_LOADED = false;
+    }
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/ModelBakery;loadItemModelAndDependencies(Lnet/minecraft/resources/ResourceLocation;)V"))
     private void initInject(BlockColors blockColors, ProfilerFiller profilerFiller, Map<ResourceLocation, BlockModel> map, Map<ResourceLocation, List<BlockStateModelLoader.LoadedJson>> map2, CallbackInfo ci){
