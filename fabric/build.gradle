@@ -54,6 +54,10 @@ dependencies {
     modCompileOnly "dev.emi:emi-fabric:1.1.22+1.21.1:api"
     // modRuntimeOnly "dev.emi:emi-fabric:1.1.22+1.21.1"
 
+    modRuntimeOnly "maven.modrinth:jade:$rootProject.jade_version+fabric"
+    // modRuntimeOnly "lol.bai:badpackets:fabric-$rootProject.badpackets_version"
+    // modRuntimeOnly "mcp.mobius.waila:wthit:fabric-$rootProject.wthit_version"
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }

@@ -163,7 +163,10 @@ public class StickerBlock extends BaseEntityBlock implements SimpleWaterloggedBl
         if (!(blockEntity instanceof StickerBlockEntity stickerEntity)) return ItemStack.EMPTY;
 
         ItemStack sticker = FireworkCapsuleItems.STICKER.value().getDefaultInstance();
-        sticker.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), stickerEntity.getStickers().getFirst());
+        if (!stickerEntity.getStickers().isEmpty()) {
+            sticker.set(FireworkCapsuleComponents.STICKER_EXPLOSION.value(), stickerEntity.getStickers().getFirst());
+        }
+
         return sticker;
     }
 
