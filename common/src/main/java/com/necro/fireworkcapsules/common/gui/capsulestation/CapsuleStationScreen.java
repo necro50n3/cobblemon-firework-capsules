@@ -52,7 +52,8 @@ public class CapsuleStationScreen extends AbstractContainerScreen<CapsuleStation
                 325f,
                 -4.0,
                 false,
-                false
+                false,
+                13
             );
             addRenderableOnly(modelWidget);
         }
