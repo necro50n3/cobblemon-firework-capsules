@@ -4,6 +4,7 @@ import com.necro.fireworkcapsules.common.FireworkCapsules;
 import com.necro.fireworkcapsules.neoforge.blocks.NeoForgeBlocks;
 import com.necro.fireworkcapsules.neoforge.components.NeoForgeComponents;
 import com.necro.fireworkcapsules.neoforge.entities.NeoForgeEntities;
+import com.necro.fireworkcapsules.neoforge.events.CommandsRegistrationEvent;
 import com.necro.fireworkcapsules.neoforge.gui.NeoForgeMenus;
 import com.necro.fireworkcapsules.neoforge.items.NeoForgeItems;
 import com.necro.fireworkcapsules.neoforge.particles.NeoForgeParticles;
@@ -11,6 +12,7 @@ import com.necro.fireworkcapsules.neoforge.recipes.NeoForgeRecipes;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(FireworkCapsules.MOD_ID)
 public class FireworkCapsulesNeoForge {
@@ -32,5 +34,7 @@ public class FireworkCapsulesNeoForge {
         NeoForgeParticles.register();
         NeoForgeRecipes.register();
         NeoForgeRecipes.RECIPE_SERIALIZERS.register(modBus);
+
+        NeoForge.EVENT_BUS.addListener(CommandsRegistrationEvent::registerCommands);
     }
 }
